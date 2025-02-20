@@ -30,7 +30,9 @@ public class TipoPrenda {
     private List<TipoPrenda> tipoPrendasHijas = new ArrayList<>();
 
     @OneToMany(
-
+            mappedBy = "tipoPrenda",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     private List<Prenda> prendas = new ArrayList<>();
 

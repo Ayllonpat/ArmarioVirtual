@@ -285,7 +285,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="DgNGuxFc834xRQPZXvwP-77" value="TipoPrenda" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="63" y="522" width="198" height="130" as="geometry" />
+          <mxGeometry x="63" y="522" width="198" height="156" as="geometry" />
         </mxCell>
         <mxCell id="DgNGuxFc834xRQPZXvwP-78" value="&lt;span style=&quot;text-wrap-mode: nowrap;&quot;&gt;id: UUID&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="DgNGuxFc834xRQPZXvwP-77" vertex="1">
           <mxGeometry y="26" width="198" height="26" as="geometry" />
@@ -317,8 +317,11 @@
         </mxCell>
         <mxCell id="DgNGuxFc834xRQPZXvwP-83" value="0*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" parent="DgNGuxFc834xRQPZXvwP-81" connectable="0" vertex="1">
           <mxGeometry x="1" relative="1" as="geometry">
-            <mxPoint x="36" y="-9" as="offset" />
+            <mxPoint x="18" y="-9" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="ADfb7tHpaQWuNCR07uWV-4" value="prendas: List&amp;lt;Prenda&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="DgNGuxFc834xRQPZXvwP-77">
+          <mxGeometry y="130" width="198" height="26" as="geometry" />
         </mxCell>
         <mxCell id="DgNGuxFc834xRQPZXvwP-84" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" target="DgNGuxFc834xRQPZXvwP-17" edge="1">
           <mxGeometry relative="1" as="geometry">
