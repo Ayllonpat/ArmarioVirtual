@@ -23,14 +23,15 @@ public class Usuario {
     @GeneratedValue
     private UUID id;
 
-    @Column(length = 150)
+    @Column(length = 150, nullable = false)
     private String nombre;
 
-    @Column(length = 150)
+    @Column(length = 150, nullable = false, unique = true)
     private String username;
 
     private String password;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
     private LocalDateTime fechaRegistro;
@@ -38,6 +39,7 @@ public class Usuario {
     private Boolean enable;
 
     private Boolean activo;
+
 
     @Override
     public final boolean equals(Object o) {
