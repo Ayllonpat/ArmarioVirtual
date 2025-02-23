@@ -36,7 +36,7 @@ public class Usuario {
 
     private LocalDateTime fechaRegistro;
 
-    private Boolean enable;
+    private Boolean enable = false;
 
     private Boolean activo;
 
