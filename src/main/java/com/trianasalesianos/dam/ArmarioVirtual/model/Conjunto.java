@@ -21,7 +21,7 @@ public class Conjunto {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
 
     @Column(length = 150, nullable = false)
     private String nombre;

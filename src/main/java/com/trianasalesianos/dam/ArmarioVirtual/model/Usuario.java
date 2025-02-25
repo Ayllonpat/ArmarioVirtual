@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -17,7 +20,7 @@ import java.util.UUID;
 @ToString
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -36,10 +39,9 @@ public class Usuario {
 
     private LocalDateTime fechaRegistro;
 
-    private Boolean enable;
+    private Boolean enable = false;
 
     private Boolean activo;
-
 
     @Override
     public final boolean equals(Object o) {
@@ -55,5 +57,9 @@ public class Usuario {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 }

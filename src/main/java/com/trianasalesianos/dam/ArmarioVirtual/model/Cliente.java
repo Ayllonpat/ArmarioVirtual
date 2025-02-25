@@ -6,8 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -16,16 +20,18 @@ import java.util.List;
 @ToString
 @SuperBuilder
 @NoArgsConstructor
-public class Cliente extends Usuario{
+public class Cliente extends Usuario {
 
     @OneToMany(mappedBy = "cliente",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Prenda> prendas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Conjunto> conjuntos = new ArrayList<>();
 
     @ManyToMany
@@ -55,5 +61,9 @@ public class Cliente extends Usuario{
     @ManyToMany(mappedBy = "seguidores")
     private List<Cliente> seguidos = new ArrayList<>();
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_CLIENTE"));
+    }
 
 }

@@ -19,7 +19,7 @@ public class Comentario {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String contenido;

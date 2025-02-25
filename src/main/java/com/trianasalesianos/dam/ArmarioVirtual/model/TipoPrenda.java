@@ -19,8 +19,9 @@ import java.util.UUID;
 public class TipoPrenda {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
     @Column(length = 150, nullable = false)
     private String nombre;
