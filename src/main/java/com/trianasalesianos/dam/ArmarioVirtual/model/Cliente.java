@@ -20,16 +20,18 @@ import java.util.List;
 @ToString
 @SuperBuilder
 @NoArgsConstructor
-public class Cliente extends Usuario{
+public class Cliente extends Usuario {
 
     @OneToMany(mappedBy = "cliente",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Prenda> prendas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Conjunto> conjuntos = new ArrayList<>();
 
     @ManyToMany

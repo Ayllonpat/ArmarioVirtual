@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @ToString
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue

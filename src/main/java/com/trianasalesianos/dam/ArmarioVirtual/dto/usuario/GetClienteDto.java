@@ -5,6 +5,7 @@ import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.GetPrendaDto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.conjunto.GetConjuntoDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public record GetClienteDto(
@@ -22,27 +23,39 @@ public record GetClienteDto(
         List<GetClienteDto> seguidos
 ) {
     public static GetClienteDto from(Cliente cliente) {
-        List<GetPrendaDto> prendas = cliente.getPrendas().stream()
+        List<GetPrendaDto> prendas = Optional.ofNullable(cliente.getPrendas())
+                .orElse(List.of())
+                .stream()
                 .map(GetPrendaDto::from)
                 .collect(Collectors.toList());
 
-        List<GetConjuntoDto> conjuntos = cliente.getConjuntos().stream()
+        List<GetConjuntoDto> conjuntos = Optional.ofNullable(cliente.getConjuntos())
+                .orElse(List.of())
+                .stream()
                 .map(GetConjuntoDto::from)
                 .collect(Collectors.toList());
 
-        List<GetPrendaDto> favoritoPrendas = cliente.getFavoritoPrendas().stream()
+        List<GetPrendaDto> favoritoPrendas = Optional.ofNullable(cliente.getFavoritoPrendas())
+                .orElse(List.of())
+                .stream()
                 .map(GetPrendaDto::from)
                 .collect(Collectors.toList());
 
-        List<GetConjuntoDto> favoritoConjunto = cliente.getFavoritoConjunto().stream()
+        List<GetConjuntoDto> favoritoConjunto = Optional.ofNullable(cliente.getFavoritoConjunto())
+                .orElse(List.of())
+                .stream()
                 .map(GetConjuntoDto::from)
                 .collect(Collectors.toList());
 
-        List<GetClienteDto> seguidores = cliente.getSeguidores().stream()
+        List<GetClienteDto> seguidores = Optional.ofNullable(cliente.getSeguidores())
+                .orElse(List.of())
+                .stream()
                 .map(GetClienteDto::from)
                 .collect(Collectors.toList());
 
-        List<GetClienteDto> seguidos = cliente.getSeguidos().stream()
+        List<GetClienteDto> seguidos = Optional.ofNullable(cliente.getSeguidos())
+                .orElse(List.of())
+                .stream()
                 .map(GetClienteDto::from)
                 .collect(Collectors.toList());
 

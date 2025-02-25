@@ -9,8 +9,16 @@ import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshToken
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshTokenService;
 import com.trianasalesianos.dam.ArmarioVirtual.service.UsuarioService;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/usuarios")
 @RequiredArgsConstructor
+@Tag(name = "Usuario",
+        description = "Controlador de usuarios, para poder realizar todas sus operaciones de gestión")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -28,7 +38,67 @@ public class UsuarioController {
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
 
-
+    @Operation(summary = "Un usuario Admin puede crear todo tipo de usuarios pero clientes" +
+            "solo pueden crear clientes")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "El usurname o email ya esta repetido",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ProblemDetail.class),
+                                            examples = {
+                                                    @ExampleObject(
+                                                            value = """
+                                                                   
+                                                                        {
+                                                                            "type": "about:blank",
+                                                                            "title": "Username en uso",
+                                                                            "status": 400,
+                                                                            "detail": "El nombre de usuario ya está en uso.",
+                                                                            "instance": "/api/usuarios/crear/cliente"
+                                                                        }
+                                                                        
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Se ha creado el usuario ",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Usuario.class),
+                                            examples = {
+                                                    @ExampleObject(
+                                                            value = """
+                                                                        {
+                                                                             "id": "6083fff2-c43a-4a98-a582-2e572f9db15c",
+                                                                             "nombre": "Admin Master",
+                                                                             "username": "adminmaster9",
+                                                                             "email": "admin9@example.com",
+                                                                             "enable": false,
+                                                                             "activo": true,
+                                                                             "prendas": [],
+                                                                             "conjuntos": [],
+                                                                             "favoritoPrendas": [],
+                                                                             "favoritoConjunto": [],
+                                                                             "seguidores": [],
+                                                                             "seguidos": []
+                                                                         }
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            }
+                    )
+            }
+    )
     @PostMapping("/crear/{tipoUsuario}")
     public ResponseEntity<?> crearUsuario(@RequestBody CreateUsuarioDto createUsuarioDto,
                                           @PathVariable String tipoUsuario) {
@@ -43,6 +113,56 @@ public class UsuarioController {
 
     }
 
+    @Operation(summary = "Permite a un usuario autenticarse y obtener un token de acceso y un token de refresco.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Las credenciales proporcionadas son incorrectas o el usuario no existe.",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ProblemDetail.class),
+                                            examples = {
+                                                    @ExampleObject(
+                                                            value = """
+                                                                    {
+                                                                        "type": "about:blank",
+                                                                        "title": "Unauthorized",
+                                                                        "status": 401,
+                                                                        "detail": "Bad credentials",
+                                                                        "instance": "/api/usuarios/auth/login"
+                                                                    }
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "El usuario ha iniciado sesión correctamente y se han generado los tokens.",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = UserResponse.class),
+                                            examples = {
+                                                    @ExampleObject(
+                                                            value = """
+                                                                    {
+                                                                        "id": "6083fff2-c43a-4a98-a582-2e572f9db15c",
+                                                                        "username": "adminmaster9",
+                                                                        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+                                                                        "refreshToken": "a5119a8d-d758-4d46-8cce-624ef3a8ebff"
+                                                                    }
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            }
+                    )
+            }
+    )
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 

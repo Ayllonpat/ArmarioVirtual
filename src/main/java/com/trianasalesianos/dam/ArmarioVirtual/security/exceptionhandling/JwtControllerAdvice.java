@@ -13,17 +13,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class JwtControllerAdvice extends ResponseEntityExceptionHandler {
 
-    /*@ExceptionHandler(AuthenticationException.class)
-    public ProblemDetail handleAuthenticationException(AuthenticationException ex) {
-
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED,
-                ex.getMessage());
-
-        // Añadir un header WWW-Authenticate: Bearer
-
-        return problemDetail;
-    }*/
-
 
     @ExceptionHandler(AuthenticationException.class)
     public ErrorResponse handleAuthenticationException(AuthenticationException ex) {
@@ -56,16 +45,6 @@ public class JwtControllerAdvice extends ResponseEntityExceptionHandler {
 
         return problemDetail;
     }
-
-    /*@ExceptionHandler(ActivationExpiredException.class)
-    public ProblemDetail handleActivationExpired(ActivationExpiredException ex) {
-
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
-                ex.getMessage());
-
-        return problemDetail;
-    }*/
-
 
 
 
