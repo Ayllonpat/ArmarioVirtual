@@ -3,7 +3,10 @@ package com.trianasalesianos.dam.ArmarioVirtual.controller;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.*;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Admin;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
-import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.JwtService;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.JwtService;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshToken;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshTokenRequest;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshTokenService;
 import com.trianasalesianos.dam.ArmarioVirtual.service.UsuarioService;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
 
     @PostMapping("/crear/{tipoUsuario}")
@@ -56,7 +60,18 @@ public class UsuarioController {
 
         String accessToken = jwtService.generateAccessToken(user);
 
+        RefreshToken refreshToken = refreshTokenService.create(user);
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(user, accessToken, refreshToken.getToken()));
+    }
+
+    @PostMapping("/auth/refresh/token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest req) {
+        String token = req.refreshToken();
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(refreshTokenService.refreshToken(token));
+
     }
 }
