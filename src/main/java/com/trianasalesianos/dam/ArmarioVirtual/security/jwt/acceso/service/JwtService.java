@@ -1,4 +1,4 @@
-package com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso;
+package com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service;
 
 import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import io.jsonwebtoken.*;

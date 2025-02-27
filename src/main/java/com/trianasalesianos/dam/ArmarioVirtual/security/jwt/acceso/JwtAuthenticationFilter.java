@@ -2,6 +2,7 @@ package com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso;
 
 import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

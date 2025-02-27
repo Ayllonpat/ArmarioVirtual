@@ -3,7 +3,10 @@ package com.trianasalesianos.dam.ArmarioVirtual.controller;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.*;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Admin;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
-import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.JwtService;
+import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.ActivationToken;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.ActivationTokenService;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.JwtService;
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshToken;
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshTokenRequest;
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh.RefreshTokenService;
@@ -26,6 +29,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("api/usuarios")
 @RequiredArgsConstructor
@@ -37,6 +43,8 @@ public class UsuarioController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+    private final ActivationTokenService activationTokenService;
+    private final UsuarioRepository usuarioRepository;
 
     @Operation(summary = "Un usuario Admin puede crear todo tipo de usuarios pero clientes" +
             "solo pueden crear clientes")
@@ -165,26 +173,25 @@ public class UsuarioController {
     )
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-
-
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginRequest.username(),
-                                loginRequest.password()
-                        )
-                );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
+        );
 
         Usuario user = (Usuario) authentication.getPrincipal();
 
-        String accessToken = jwtService.generateAccessToken(user);
+        if (!user.getEnable()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cuenta no activada. Revisa tu correo.");
+        }
 
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String accessToken = jwtService.generateAccessToken(user);
         RefreshToken refreshToken = refreshTokenService.create(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(user, accessToken, refreshToken.getToken()));
     }
+
 
     @PostMapping("/auth/refresh/token")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest req) {
@@ -194,4 +201,26 @@ public class UsuarioController {
                 .body(refreshTokenService.refreshToken(token));
 
     }
+
+    @Operation(summary = "Activa la cuenta de un usuario mediante un token enviado por correo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cuenta activada exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Token inválido o expirado")
+    })
+    @GetMapping("/auth/activate/{token}")
+    public ResponseEntity<?> activateAccount(@PathVariable String token) {
+        Optional<ActivationToken> activationToken = activationTokenService.findByToken(token);
+
+        if (activationToken.isEmpty() || activationToken.get().getExpirationTime().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token inválido o expirado.");
+        }
+
+        Usuario usuario = activationToken.get().getUsuario();
+        usuario.setEnable(true);
+        usuarioRepository.save(usuario);
+        activationTokenService.deleteToken(activationToken.get());
+
+        return ResponseEntity.ok("Cuenta activada exitosamente.");
+    }
+
 }
