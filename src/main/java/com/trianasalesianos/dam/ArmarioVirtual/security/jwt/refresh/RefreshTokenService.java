@@ -1,13 +1,11 @@
 package com.trianasalesianos.dam.ArmarioVirtual.security.jwt.refresh;
 
-import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.UserResponse;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.JwtService;
+import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -18,7 +16,7 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final UsuarioRepository userRepository;
-    private final com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.JwtService jwtService;
+    private final JwtService jwtService;
 
     @Value("${jwt.refresh.duration}")
     private int durationInMinutes;

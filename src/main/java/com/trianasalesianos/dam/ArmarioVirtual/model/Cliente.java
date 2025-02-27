@@ -19,7 +19,6 @@ import java.util.List;
 @Setter
 @ToString
 @SuperBuilder
-@NoArgsConstructor
 public class Cliente extends Usuario {
 
     @OneToMany(mappedBy = "cliente",
@@ -60,6 +59,10 @@ public class Cliente extends Usuario {
 
     @ManyToMany(mappedBy = "seguidores")
     private List<Cliente> seguidos = new ArrayList<>();
+
+    public Cliente() {
+        setRole(Role.CLIENTE);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

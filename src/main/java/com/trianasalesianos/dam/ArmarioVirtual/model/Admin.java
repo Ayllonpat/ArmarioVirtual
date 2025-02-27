@@ -14,8 +14,11 @@ import java.util.Collections;
 @Setter
 @ToString
 @SuperBuilder
-@NoArgsConstructor
 public class Admin extends Usuario {
+
+    public Admin() {
+        setRole(Role.ADMIN);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

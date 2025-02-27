@@ -5,10 +5,12 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -43,6 +45,9 @@ public class Usuario implements UserDetails {
 
     private Boolean activo;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -59,7 +64,8 @@ public class Usuario implements UserDetails {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 }
