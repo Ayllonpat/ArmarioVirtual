@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/usuarios")
@@ -222,5 +223,45 @@ public class UsuarioController {
 
         return ResponseEntity.ok("Cuenta activada exitosamente.");
     }
+
+    @Operation(summary = "Permite obtener la información de un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuario encontrado exitosamente"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = UserResponse.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                                                    {
+                                                                        "id": "6083fff2-c43a-4a98-a582-2e572f9db15c",
+                                                                        "username": "adminmaster9",
+                                                                        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+                                                                        "refreshToken": "a5119a8d-d758-4d46-8cce-624ef3a8ebff"
+                                                                    }
+                                                                    """
+                                            )
+                                    }
+                            )
+                    }
+            )
+    })
+    @GetMapping("/me")
+    public ResponseEntity<?> getUsuarioAutenticado() {
+        Usuario usuario = usuarioService.obtenerUsuarioAutenticado();
+
+        if (usuario instanceof Admin) {
+            return ResponseEntity.ok(GetAdminDto.from((Admin) usuario));
+        }
+
+        return ResponseEntity.ok(GetClienteDto.from((Cliente) usuario));
+    }
+
 
 }
