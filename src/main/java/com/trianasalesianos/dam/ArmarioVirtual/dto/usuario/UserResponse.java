@@ -18,4 +18,6 @@ public record UserResponse(UUID id,
     public static UserResponse of (Usuario user, String token, String refreshToken) {
         return new UserResponse(user.getId(), user.getUsername(), token, refreshToken);
     }
+
+
 }

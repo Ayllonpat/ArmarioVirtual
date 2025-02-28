@@ -4,15 +4,21 @@ import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.CreateUsuarioDto;
 import com.trianasalesianos.dam.ArmarioVirtual.error.EmailDuplicadoException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.UsernameDuplicadoException;
+import com.trianasalesianos.dam.ArmarioVirtual.error.UsuarioNoAutenticadoException;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.ActivationToken;
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.ActivationTokenService;
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -54,4 +60,17 @@ public class UsuarioService {
 
         return usuario;
     }
+
+    public Usuario obtenerUsuarioAutenticado() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            throw new UsuarioNoAutenticadoException("No autenticado. Debes iniciar sesión.");
+        }
+
+        return (Usuario) authentication.getPrincipal();
+    }
+
+    
+
 }

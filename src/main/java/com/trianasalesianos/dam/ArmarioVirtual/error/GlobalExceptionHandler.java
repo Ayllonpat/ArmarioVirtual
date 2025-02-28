@@ -31,4 +31,11 @@ public class GlobalExceptionHandler {
         detail.setTitle("Tipo de usuario inválido");
         return detail;
     }
+
+    @ExceptionHandler(UsuarioNoAutenticadoException.class)
+    public ProblemDetail handleUsuarioNoAutenticadoException(UsuarioNoAutenticadoException exception) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        detail.setTitle("Usuario no autenticado");
+        return detail;
+    }
 }
