@@ -1,16 +1,15 @@
 package com.trianasalesianos.dam.ArmarioVirtual.dto.prenda;
 
-import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Visibilidad;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
+import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
 import com.trianasalesianos.dam.ArmarioVirtual.model.TipoPrenda;
+import com.trianasalesianos.dam.ArmarioVirtual.model.Visibilidad;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 public record CreatePrendaDto(
-
         @NotBlank(message = "{error.nombre.blank}")
         @Size(max = 150, message = "{error.nombre.size}")
         String nombre,
@@ -27,7 +26,9 @@ public record CreatePrendaDto(
         @Size(max = 255, message = "{error.enlaceCompra.size}")
         String enlaceCompra,
 
-        GetTipoPrendaDto tipoPrenda
+        GetTipoPrendaDto tipoPrenda,
+
+        Visibilidad visibilidad
 ) {
     public Prenda toPrenda(Cliente cliente, TipoPrenda tipoPrenda) {
         return Prenda.builder()
@@ -39,7 +40,7 @@ public record CreatePrendaDto(
                 .tipoPrenda(tipoPrenda)
                 .cliente(cliente)
                 .fechaPublicacion(LocalDateTime.now())
-                .visibilidad(Visibilidad.PUBLICO)
+                .visibilidad(this.visibilidad != null ? this.visibilidad : Visibilidad.PRIVADO)
                 .build();
     }
 }
