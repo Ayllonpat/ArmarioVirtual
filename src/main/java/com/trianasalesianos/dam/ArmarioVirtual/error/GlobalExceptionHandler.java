@@ -38,4 +38,11 @@ public class GlobalExceptionHandler {
         detail.setTitle("Usuario no autenticado");
         return detail;
     }
+
+    @ExceptionHandler(TipoPrendaNoEncontradaException.class)
+    public ProblemDetail handleTipoPrendaNoEncontradaException(TipoPrendaNoEncontradaException exception) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        detail.setTitle("TipoPrenda no encontrada");
+        return detail;
+    }
 }

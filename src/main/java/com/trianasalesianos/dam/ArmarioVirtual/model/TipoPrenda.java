@@ -1,5 +1,6 @@
 package com.trianasalesianos.dam.ArmarioVirtual.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -30,10 +31,12 @@ public class TipoPrenda {
     @JoinColumn(name = "tipo_prenda_padre_id")
     private TipoPrenda tipoPrendaPadre;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tipoPrendaPadre",
             cascade = CascadeType.ALL)
     private List<TipoPrenda> tipoPrendasHijas = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tipoPrenda",
             cascade = CascadeType.ALL)
     private List<Prenda> prendas = new ArrayList<>();

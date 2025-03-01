@@ -71,6 +71,6 @@ public class UsuarioService {
         return (Usuario) authentication.getPrincipal();
     }
 
-    
+
 
 }

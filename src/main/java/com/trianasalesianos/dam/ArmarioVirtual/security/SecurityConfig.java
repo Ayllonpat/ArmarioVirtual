@@ -66,10 +66,11 @@ public class SecurityConfig {
         );
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/crear/cliente", "/api/usuarios/auth/login",
-                        "/auth/refresh/token", "/activate/account/", "/error").permitAll()
+                        "/auth/refresh/token", "/error").permitAll()
                 .requestMatchers("/api/usuarios/auth/activate/**").permitAll()
                 .requestMatchers("/me/admin").hasRole("ADMIN")
                 .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/api/prendas/añadir").hasRole("CLIENTE")
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/crear/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
