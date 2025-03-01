@@ -5,10 +5,7 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -39,7 +36,7 @@ public class Conjunto {
     private List<Prenda> prendas = new ArrayList<>();
 
     @ManyToMany(mappedBy = "conjuntos")
-    private List<Tag> tags = new ArrayList<>();
+    private Set<Tag> tags = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private Visibilidad visibilidad;
@@ -48,6 +45,13 @@ public class Conjunto {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+    @ManyToMany
+    @JoinTable(
+            name = "conjunto_likes",
+            joinColumns = @JoinColumn(name = "conjunto_id"),
+            inverseJoinColumns = @JoinColumn(name = "cliente_id")
+    )
+    private Set<Cliente> clientesQueDieronLike = new HashSet<>();
 
     @Override
     public final boolean equals(Object o) {

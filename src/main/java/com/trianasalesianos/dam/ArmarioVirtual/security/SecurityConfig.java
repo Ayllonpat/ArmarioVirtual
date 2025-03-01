@@ -71,7 +71,9 @@ public class SecurityConfig {
                 .requestMatchers("/me/admin").hasRole("ADMIN")
                 .requestMatchers("/h2-console/**",
                         "/swagger-ui/**", "/v3/api-docs").permitAll()
-                .requestMatchers("/api/prendas/añadir").hasRole("CLIENTE")
+                .requestMatchers("/api/prendas/añadir", "/api/prendas/{id}/like"
+                , "/api/conjuntos/añadir", "/api/conjuntos/{id}/like",
+                        "/api/conjuntos/{id}/likes").hasRole("CLIENTE")
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/crear/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 

@@ -2,7 +2,8 @@ package com.trianasalesianos.dam.ArmarioVirtual.service;
 
 import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.CreatePrendaDto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.GetPrendaDto;
-import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.GetTipoPrendaDto;
+import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.LikeCountDto;
+import com.trianasalesianos.dam.ArmarioVirtual.error.PrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoPrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
@@ -46,4 +47,29 @@ public class PrendaService {
         return GetPrendaDto.from(prenda);
     }
 
+    @Transactional
+    public void toggleLike(Long prendaId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Cliente cliente = usuarioRepository.findByUsername(username)
+                .filter(usuario -> usuario instanceof Cliente)
+                .map(Cliente.class::cast)
+                .orElseThrow(() -> new TipoUsuarioInvalidoException("Usuario no válido"));
+
+        Prenda prenda = prendaRepository.findById(prendaId)
+                .orElseThrow(() -> new PrendaNoEncontradaException("Prenda no encontrada"));
+
+        if (prendaRepository.existsLikeByCliente(prendaId, cliente.getId())) {
+            prenda.getClientesQueDieronLike().remove(cliente);
+        } else {
+            prenda.getClientesQueDieronLike().add(cliente);
+        }
+
+        prendaRepository.save(prenda);
+    }
+
+    public LikeCountDto getLikeCount(Long prendaId) {
+        long likeCount = prendaRepository.countLikes(prendaId);
+        return new LikeCountDto(likeCount);
+    }
 }
