@@ -97,4 +97,20 @@ public class ConjuntoController {
         GetConjuntoDto nuevoConjunto = conjuntoService.crearConjunto(createConjuntoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoConjunto);
     }
+
+    @Operation(summary = "Darle o quitar un like a un conjunto")
+    @ApiResponse(responseCode = "200", description = "Like dado o quitado exitosamente")
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Void> toggleLike(@PathVariable Long id) {
+        conjuntoService.toggleLike(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Obtener el conteo de likes de un conjunto")
+    @ApiResponse(responseCode = "200", description = "Número de likes obtenidos")
+    @GetMapping("/{id}/likes")
+    public ResponseEntity<Long> getLikeCount(@PathVariable Long id) {
+        long likeCount = conjuntoService.getLikeCount(id);
+        return ResponseEntity.ok(likeCount);
+    }
 }

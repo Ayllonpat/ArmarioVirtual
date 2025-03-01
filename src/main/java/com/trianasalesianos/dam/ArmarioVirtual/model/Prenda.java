@@ -2,14 +2,13 @@ package com.trianasalesianos.dam.ArmarioVirtual.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,7 +38,7 @@ public class Prenda {
     private Visibilidad visibilidad;
 
     @ManyToMany(mappedBy = "prendas")
-    private List<Tag> tags = new ArrayList<>();
+    private Set<Tag> tags = new HashSet<>();
 
     private LocalDateTime fechaPublicacion;
 
@@ -51,8 +50,16 @@ public class Prenda {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+    @ManyToMany
+    @JoinTable(
+            name = "prenda_likes",
+            joinColumns = @JoinColumn(name = "prenda_id"),
+            inverseJoinColumns = @JoinColumn(name = "cliente_id")
+    )
+    private Set<Cliente> clientesQueDieronLike = new HashSet<>();
+
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
@@ -63,7 +70,7 @@ public class Prenda {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 }

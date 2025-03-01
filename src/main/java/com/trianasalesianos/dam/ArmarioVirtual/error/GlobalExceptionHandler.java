@@ -52,4 +52,11 @@ public class GlobalExceptionHandler {
         detail.setTitle("Prenda no encontrada");
         return detail;
     }
+
+    @ExceptionHandler(ConjuntoNoEncontradaException.class)
+    public ProblemDetail handleConjuntoNoEncontradaException(ConjuntoNoEncontradaException exception) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        detail.setTitle("Conjunto no encontrada");
+        return detail;
+    }
 }

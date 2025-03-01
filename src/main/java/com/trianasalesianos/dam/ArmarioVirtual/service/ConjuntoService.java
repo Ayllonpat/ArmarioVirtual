@@ -2,6 +2,7 @@ package com.trianasalesianos.dam.ArmarioVirtual.service;
 
 import com.trianasalesianos.dam.ArmarioVirtual.dto.conjunto.CreateConjuntoDto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.conjunto.GetConjuntoDto;
+import com.trianasalesianos.dam.ArmarioVirtual.error.ConjuntoNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.PrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
@@ -48,4 +49,33 @@ public class ConjuntoService {
 
         return GetConjuntoDto.from(conjunto);
     }
+
+    @Transactional
+    public void toggleLike(Long conjuntoId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Cliente cliente = usuarioRepository.findByUsername(username)
+                .filter(usuario -> usuario instanceof Cliente)
+                .map(Cliente.class::cast)
+                .orElseThrow(() -> new TipoUsuarioInvalidoException("Usuario no válido"));
+
+        Conjunto conjunto = conjuntoRepository.findById(conjuntoId)
+                .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto no encontrado"));
+
+        if (conjunto.getClientesQueDieronLike().contains(cliente)) {
+            conjunto.getClientesQueDieronLike().remove(cliente);
+        } else {
+            conjunto.getClientesQueDieronLike().add(cliente);
+        }
+
+        conjuntoRepository.save(conjunto);
+    }
+
+    public long getLikeCount(Long conjuntoId) {
+        Conjunto conjunto = conjuntoRepository.findById(conjuntoId)
+                .orElseThrow(() -> new PrendaNoEncontradaException("Conjunto no encontrado"));
+
+        return conjunto.getClientesQueDieronLike().size();
+    }
+
 }
