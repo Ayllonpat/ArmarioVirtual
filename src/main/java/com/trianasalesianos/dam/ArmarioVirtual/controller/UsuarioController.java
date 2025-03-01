@@ -235,7 +235,7 @@ public class UsuarioController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = UserResponse.class),
+                                    schema = @Schema(implementation = ProblemDetail.class),
                                     examples = {
                                             @ExampleObject(
                                                     value = """

@@ -45,4 +45,11 @@ public class GlobalExceptionHandler {
         detail.setTitle("TipoPrenda no encontrada");
         return detail;
     }
+
+    @ExceptionHandler(PrendaNoEncontradaException.class)
+    public ProblemDetail handlePrendaNoEncontradaException(PrendaNoEncontradaException exception) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        detail.setTitle("Prenda no encontrada");
+        return detail;
+    }
 }

@@ -69,7 +69,8 @@ public class SecurityConfig {
                         "/auth/refresh/token", "/error").permitAll()
                 .requestMatchers("/api/usuarios/auth/activate/**").permitAll()
                 .requestMatchers("/me/admin").hasRole("ADMIN")
-                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/h2-console/**",
+                        "/swagger-ui/**", "/v3/api-docs").permitAll()
                 .requestMatchers("/api/prendas/añadir").hasRole("CLIENTE")
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/crear/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
