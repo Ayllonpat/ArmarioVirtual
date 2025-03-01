@@ -1,9 +1,9 @@
 package com.trianasalesianos.dam.ArmarioVirtual.dto.prenda;
 
+import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
 
 public record GetPrendaDto(
-        String id,
         String nombre,
         String imagen,
         String color,
@@ -11,11 +11,10 @@ public record GetPrendaDto(
         String enlaceCompra,
         String visibilidad,
         String tipoPrendaId,
-        String clienteId
+        GetClientePrendasDto cliente
 ) {
     public static GetPrendaDto from(Prenda prenda) {
         return new GetPrendaDto(
-                prenda.getId().toString(),
                 prenda.getNombre(),
                 prenda.getImagen(),
                 prenda.getColor(),
@@ -23,7 +22,7 @@ public record GetPrendaDto(
                 prenda.getEnlaceCompra(),
                 prenda.getVisibilidad().toString(),
                 prenda.getTipoPrenda().getId().toString(),
-                prenda.getCliente().getId().toString()
+                GetClientePrendasDto.from(prenda.getCliente())
         );
     }
 }
