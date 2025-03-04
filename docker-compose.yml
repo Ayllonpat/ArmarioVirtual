@@ -29,6 +29,12 @@ services:
          PGADMIN_DEFAULT_PASSWORD: 1
        volumes:
          - pgadmin-data:/var/lib/pgadmin
+   
+   armariovirtual:
+      container_name: ArmarioVirtual
+      build: .
+      ports: 
+        - "8080:8080"
           
 volumes:
   pgdata:
