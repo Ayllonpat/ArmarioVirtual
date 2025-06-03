@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -30,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -195,7 +197,7 @@ public class UsuarioController {
 
 
     @PostMapping("/auth/refresh/token")
-    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest req) {
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenRequest req)  {
         String token = req.refreshToken();
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -262,6 +264,56 @@ public class UsuarioController {
 
         return ResponseEntity.ok(GetClienteDto.from((Cliente) usuario));
     }
+    @Operation(summary = "Permite a un cliente seguir a otro cliente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ahora sigues a ese usuario"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PostMapping("/{id}/follow")
+    public ResponseEntity<Void> follow(@PathVariable UUID id) {
+        usuarioService.follow(id);
+        return ResponseEntity.ok().build();
+    }
 
+    @Operation(summary = "Permite a un cliente dejar de seguir a otro cliente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Has dejado de seguir a ese usuario"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PostMapping("/{id}/unfollow")
+    public ResponseEntity<Void> unfollow(@PathVariable UUID id) {
+        usuarioService.unfollow(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Obtener lista de seguidores de un cliente")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Lista de seguidores obtenida exitosamente",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GetClienteDto.class)
+            )
+    )
+    @GetMapping("/{id}/seguidores")
+    public ResponseEntity<List<GetClienteDto>> getSeguidores(@PathVariable UUID id) {
+        return ResponseEntity.ok(usuarioService.getSeguidores(id));
+    }
+
+    @Operation(summary = "Obtener lista de seguidos de un cliente")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Lista de seguidos obtenida exitosamente",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GetClienteDto.class)
+            )
+    )
+    @GetMapping("/{id}/seguidos")
+    public ResponseEntity<List<GetClienteDto>> getSeguidos(@PathVariable UUID id) {
+        return ResponseEntity.ok(usuarioService.getSeguidos(id));
+    }
 
 }
