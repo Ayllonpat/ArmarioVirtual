@@ -1,11 +1,14 @@
 package com.trianasalesianos.dam.ArmarioVirtual.dto.prenda;
 
-import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
 import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
+import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+
 
 public record GetPrendaDto(
         String nombre,
-        String imagen,
+        String imagenUrl,      // ahora contiene la URL pública
         String color,
         String talla,
         String enlaceCompra,
@@ -13,16 +16,24 @@ public record GetPrendaDto(
         String tipoPrendaId,
         GetClientePrendasDto cliente
 ) {
-    public static GetPrendaDto from(Prenda prenda) {
+    public static GetPrendaDto from(Prenda p) {
+
+        String url = p.getImagen() == null
+                ? null
+                : ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/uploads/prendas/")
+                .path(p.getImagen())
+                .toUriString();
+
         return new GetPrendaDto(
-                prenda.getNombre(),
-                prenda.getImagen(),
-                prenda.getColor(),
-                prenda.getTalla(),
-                prenda.getEnlaceCompra(),
-                prenda.getVisibilidad().toString(),
-                prenda.getTipoPrenda().getId().toString(),
-                GetClientePrendasDto.from(prenda.getCliente())
+                p.getNombre(),
+                url,
+                p.getColor(),
+                p.getTalla(),
+                p.getEnlaceCompra(),
+                p.getVisibilidad().toString(),
+                p.getTipoPrenda().getId().toString(),
+                GetClientePrendasDto.from(p.getCliente())
         );
     }
 }

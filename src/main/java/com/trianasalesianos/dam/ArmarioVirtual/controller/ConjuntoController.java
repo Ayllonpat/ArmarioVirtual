@@ -17,8 +17,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/conjuntos")
@@ -187,4 +192,29 @@ public class ConjuntoController {
     public ResponseEntity<Long> getLikeCount(@PathVariable Long id) {
         return ResponseEntity.ok(conjuntoService.getLikeCount(id));
     }
+
+    @Operation(summary = "Obtener todas las URLs de las imágenes de las prendas que componen un conjunto")
+    @GetMapping("/{id}/imagenes")
+    public ResponseEntity<List<String>> listarImagenes(@PathVariable Long id) {
+        GetConjuntoDto conjunto = conjuntoService.findById(id);
+        List<String> urls = conjunto.prendas()
+                .stream()
+                .map(p -> p.imagen())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(urls);
+    }
+
+    @Operation(summary = "Listar conjuntos (paginado y filtrable por nombre y tags)")
+    @GetMapping
+    public ResponseEntity<Page<GetConjuntoDto>> listAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) List<String> tags
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<GetConjuntoDto> resultados = conjuntoService.search(nombre, tags, pageable);
+        return ResponseEntity.ok(resultados);
+    }
+
 }

@@ -1,9 +1,9 @@
 package com.trianasalesianos.dam.ArmarioVirtual.dto.conjunto;
 
+import com.trianasalesianos.dam.ArmarioVirtual.model.Conjunto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.GetPrendaDto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Conjunto;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Visibilidad;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,25 +12,30 @@ import java.util.stream.Collectors;
 public record GetConjuntoDto(
         Long id,
         String nombre,
-        String imagen,
+        String imagenUrl,            
         LocalDateTime fechaPublicacion,
         List<GetPrendaDto> prendas,
-        Visibilidad visibilidad,
+        String visibilidad,
         GetClientePrendasDto cliente
 ) {
-    public static GetConjuntoDto from(Conjunto conjunto) {
+    public static GetConjuntoDto from(Conjunto c) {
+        String url = c.getImagen() == null
+                ? null
+                : ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/uploads/conjuntos/")
+                .path(c.getImagen())
+                .toUriString();
+
         return new GetConjuntoDto(
-                conjunto.getId(),
-                conjunto.getNombre(),
-                conjunto.getImagen(),
-                conjunto.getFechaPublicacion(),
-                conjunto.getPrendas().stream()
-                        .map(GetPrendaDto::from)
-                        .collect(Collectors.toList()),
-                conjunto.getVisibilidad(),
+                c.getId(),
+                c.getNombre(),
+                url,
+                c.getFechaPublicacion(),
+                c.getPrendas().stream().map(GetPrendaDto::from).collect(Collectors.toList()),
+                c.getVisibilidad().toString(),
                 new GetClientePrendasDto(
-                        conjunto.getCliente().getId().toString(),
-                        conjunto.getCliente().getUsername()
+                        c.getCliente().getId().toString(),
+                        c.getCliente().getUsername()
                 )
         );
     }

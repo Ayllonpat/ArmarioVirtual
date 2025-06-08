@@ -29,6 +29,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -288,32 +291,44 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Obtener lista de seguidores de un cliente")
-    @ApiResponse(
-            responseCode = "200",
-            description = "Lista de seguidores obtenida exitosamente",
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = GetClienteDto.class)
-            )
-    )
+    @Operation(summary = "Obtener seguidores de un usuario (paginado)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Página de seguidores obtenida exitosamente"),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    ))
+    })
     @GetMapping("/{id}/seguidores")
-    public ResponseEntity<List<GetClienteDto>> getSeguidores(@PathVariable UUID id) {
-        return ResponseEntity.ok(usuarioService.getSeguidores(id));
+    public ResponseEntity<Page<GetClientePrendasDto>> getSeguidores(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(usuarioService.getSeguidores(id, pageable));
     }
 
-    @Operation(summary = "Obtener lista de seguidos de un cliente")
-    @ApiResponse(
-            responseCode = "200",
-            description = "Lista de seguidos obtenida exitosamente",
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = GetClienteDto.class)
-            )
-    )
+    @Operation(summary = "Obtener seguidos de un usuario (paginado)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Página de seguidos obtenida exitosamente"),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    ))
+    })
     @GetMapping("/{id}/seguidos")
-    public ResponseEntity<List<GetClienteDto>> getSeguidos(@PathVariable UUID id) {
-        return ResponseEntity.ok(usuarioService.getSeguidos(id));
+    public ResponseEntity<Page<GetClientePrendasDto>> getSeguidos(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(usuarioService.getSeguidos(id, pageable));
     }
 
 }

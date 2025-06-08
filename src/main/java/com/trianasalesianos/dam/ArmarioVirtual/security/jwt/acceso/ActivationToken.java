@@ -21,7 +21,7 @@ public class ActivationToken {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 

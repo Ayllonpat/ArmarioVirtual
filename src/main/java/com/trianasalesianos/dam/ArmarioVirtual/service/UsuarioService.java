@@ -1,8 +1,7 @@
-// src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/UsuarioService.java
 package com.trianasalesianos.dam.ArmarioVirtual.service;
 
 import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.CreateUsuarioDto;
-import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClienteDto;
+import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
 import com.trianasalesianos.dam.ArmarioVirtual.error.EmailDuplicadoException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.UsernameDuplicadoException;
@@ -15,15 +14,15 @@ import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.Activ
 import com.trianasalesianos.dam.ArmarioVirtual.security.jwt.acceso.service.EmailService;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,11 +39,9 @@ public class UsuarioService {
         if (usuarioRepository.findByEmail(createUsuarioDto.email()).isPresent()) {
             throw new EmailDuplicadoException("El correo electrónico ya está registrado.");
         }
-
         if (usuarioRepository.findByUsername(createUsuarioDto.username()).isPresent()) {
             throw new UsernameDuplicadoException("El nombre de usuario ya está en uso.");
         }
-
         Usuario usuario;
         switch (tipoUsuario.toLowerCase()) {
             case "cliente":
@@ -56,19 +53,18 @@ public class UsuarioService {
             default:
                 throw new TipoUsuarioInvalidoException("El tipo de usuario es inválido.");
         }
-
         usuario.setEnable(false);
         usuario = usuarioRepository.save(usuario);
-
         ActivationToken token = activationTokenService.createToken(usuario);
         emailService.sendActivationEmail(usuario.getEmail(), token.getToken());
-
         return usuario;
     }
 
     public Usuario obtenerUsuarioAutenticado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getPrincipal())) {
             throw new UsuarioNoAutenticadoException("No autenticado. Debes iniciar sesión.");
         }
         return (Usuario) authentication.getPrincipal();
@@ -108,30 +104,19 @@ public class UsuarioService {
         usuarioRepository.save(clienteTarget);
     }
 
-    @Transactional(readOnly = true)
-    public List<GetClienteDto> getSeguidores(UUID id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario con id " + id + " no encontrado"));
-        if (!(usuario instanceof Cliente cliente)) {
-            throw new TipoUsuarioInvalidoException("El usuario no es un cliente válido");
+    public Page<GetClientePrendasDto> getSeguidores(UUID userId, Pageable pageable) {
+        if (!usuarioRepository.existsById(userId)) {
+            throw new UsuarioNoEncontradoException("Usuario con id " + userId + " no encontrado");
         }
-        return cliente.getSeguidores()
-                .stream()
-                .map(GetClienteDto::from)
-                .collect(Collectors.toList());
+        return usuarioRepository.findFollowersById(userId, pageable)
+                .map(GetClientePrendasDto::from);
     }
 
-    @Transactional(readOnly = true)
-    public List<GetClienteDto> getSeguidos(UUID id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario con id " + id + " no encontrado"));
-        if (!(usuario instanceof Cliente cliente)) {
-            throw new TipoUsuarioInvalidoException("El usuario no es un cliente válido");
+    public Page<GetClientePrendasDto> getSeguidos(UUID userId, Pageable pageable) {
+        if (!usuarioRepository.existsById(userId)) {
+            throw new UsuarioNoEncontradoException("Usuario con id " + userId + " no encontrado");
         }
-        return cliente.getSeguidos()
-                .stream()
-                .map(GetClienteDto::from)
-                .collect(Collectors.toList());
+        return usuarioRepository.findFollowingById(userId, pageable)
+                .map(GetClientePrendasDto::from);
     }
-
 }
