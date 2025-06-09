@@ -20,7 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -199,7 +206,7 @@ public class ConjuntoController {
         GetConjuntoDto conjunto = conjuntoService.findById(id);
         List<String> urls = conjunto.prendas()
                 .stream()
-                .map(p -> p.imagen())
+                .map(p -> p.imagenUrl())
                 .collect(Collectors.toList());
         return ResponseEntity.ok(urls);
     }
@@ -215,6 +222,38 @@ public class ConjuntoController {
         Pageable pageable = PageRequest.of(page, size);
         Page<GetConjuntoDto> resultados = conjuntoService.search(nombre, tags, pageable);
         return ResponseEntity.ok(resultados);
+    }
+
+    @Operation(summary = "Subir o actualizar la imagen de un conjunto")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Imagen subida correctamente"),
+            @ApiResponse(responseCode = "404", description = "Conjunto no encontrado",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PostMapping(value = "/{id}/imagen", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> subirImagenConjunto(
+            @PathVariable Long id,
+            @RequestPart("file") MultipartFile file
+    ) throws IOException {
+        conjuntoService.storeConjuntoImage(id, file);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Descargar la imagen de un conjunto")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Imagen descargada correctamente"),
+            @ApiResponse(responseCode = "404", description = "Fichero no encontrado",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping("/{id}/imagen")
+    public ResponseEntity<Resource> descargarImagenConjunto(@PathVariable Long id) throws IOException {
+        Resource resource = conjuntoService.loadConjuntoImage(id);
+        String contentType = Files.probeContentType(Paths.get(resource.getURI()));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
 }
