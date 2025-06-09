@@ -1,4 +1,3 @@
-// src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/PrendaService.java
 package com.trianasalesianos.dam.ArmarioVirtual.service;
 
 import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.CreatePrendaDto;
@@ -15,11 +14,25 @@ import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.TipoPrendaRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
+
+import jakarta.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.*;
 import java.util.List;
 
 @Service
@@ -30,6 +43,17 @@ public class PrendaService {
     private final PrendaRepository prendaRepository;
     private final UsuarioRepository usuarioRepository;
     private final TipoPrendaRepository tipoPrendaRepository;
+
+    private final Path imageStorageLocation = Paths.get("uploads/prendas").toAbsolutePath().normalize();
+
+    @PostConstruct
+    public void init() {
+        try {
+            Files.createDirectories(imageStorageLocation);
+        } catch (IOException e) {
+            throw new RuntimeException("No se pudo crear el directorio de subida de imágenes", e);
+        }
+    }
 
     @Transactional
     public GetPrendaDto crearPrenda(CreatePrendaDto createPrendaDto) {
@@ -50,14 +74,14 @@ public class PrendaService {
     }
 
     public List<GetPrendaDto> findAll() {
-        return prendaRepository.findAll()
+        return prendaRepository.findAllWithAll()
                 .stream()
                 .map(GetPrendaDto::from)
                 .toList();
     }
 
     public GetPrendaDto findById(Long id) {
-        Prenda prenda = prendaRepository.findById(id)
+        Prenda prenda = prendaRepository.findByIdWithAll(id)
                 .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + id + " no encontrada"));
         return GetPrendaDto.from(prenda);
     }
@@ -118,5 +142,75 @@ public class PrendaService {
         }
         long likeCount = prendaRepository.countLikes(prendaId);
         return new LikeCountDto(likeCount);
+    }
+
+    @Transactional
+    public void storeImage(Long prendaId, MultipartFile file) {
+        Prenda prenda = prendaRepository.findById(prendaId)
+                .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + prendaId + " no encontrada"));
+
+        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+        String filename = prendaId + "_" + originalFilename;
+
+        try (InputStream inputStream = file.getInputStream()) {
+            Path targetLocation = imageStorageLocation.resolve(filename);
+            Files.copy(inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            prenda.setImagen(filename);
+            prendaRepository.save(prenda);
+        } catch (IOException ex) {
+            throw new RuntimeException("Error al almacenar la imagen de la prenda " + prendaId, ex);
+        }
+    }
+
+    public Resource loadImageAsResource(Long prendaId) {
+        Prenda prenda = prendaRepository.findById(prendaId)
+                .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + prendaId + " no encontrada"));
+
+        String filename = prenda.getImagen();
+        if (filename == null || filename.isBlank()) {
+            throw new RuntimeException("La prenda no tiene ninguna imagen asignada");
+        }
+
+        try {
+            Path filePath = imageStorageLocation.resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("No se pudo leer la imagen: " + filename);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("URL de imagen inválida: " + filename, e);
+        }
+    }
+
+    public Page<GetPrendaDto> search(
+            String nombre,
+            String color,
+            List<String> tags,
+            Pageable pageable) {
+
+        Specification<Prenda> spec = Specification.where(null);
+
+        if (nombre != null && !nombre.isBlank()) {
+            spec = spec.and((root, q, cb) ->
+                    cb.like(cb.lower(root.get("nombre")), "%" + nombre.toLowerCase() + "%")
+            );
+        }
+        if (color != null && !color.isBlank()) {
+            spec = spec.and((root, q, cb) ->
+                    cb.like(cb.lower(root.get("color")), "%" + color.toLowerCase() + "%")
+            );
+        }
+        if (tags != null && !tags.isEmpty()) {
+            spec = spec.and((root, q, cb) -> {
+                var join = root.join("tags", JoinType.LEFT);
+                q.distinct(true);
+                return join.get("nombre").in(tags);
+            });
+        }
+
+        return prendaRepository.findAll(spec, pageable)
+                .map(GetPrendaDto::from);
     }
 }

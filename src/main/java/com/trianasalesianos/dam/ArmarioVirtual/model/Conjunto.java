@@ -41,7 +41,7 @@ public class Conjunto {
     @Enumerated(EnumType.STRING)
     private Visibilidad visibilidad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 

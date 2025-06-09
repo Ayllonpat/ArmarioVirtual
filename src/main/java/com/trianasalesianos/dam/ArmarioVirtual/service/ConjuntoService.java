@@ -14,10 +14,15 @@ import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.ConjuntoRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 
 import java.util.List;
 
@@ -51,14 +56,14 @@ public class ConjuntoService {
     }
 
     public List<GetConjuntoDto> findAll() {
-        return conjuntoRepository.findAll()
+        return conjuntoRepository.findAllWithAll()
                 .stream()
                 .map(GetConjuntoDto::from)
                 .toList();
     }
 
     public GetConjuntoDto findById(Long id) {
-        Conjunto conjunto = conjuntoRepository.findById(id)
+        Conjunto conjunto = conjuntoRepository.findByIdWithAll(id)
                 .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + id + " no encontrado"));
         return GetConjuntoDto.from(conjunto);
     }
@@ -113,5 +118,30 @@ public class ConjuntoService {
         Conjunto conjunto = conjuntoRepository.findById(conjuntoId)
                 .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + conjuntoId + " no encontrado"));
         return conjunto.getClientesQueDieronLike().size();
+    }
+
+    public Page<GetConjuntoDto> search(
+            String nombre,
+            List<String> tags,
+            Pageable pageable) {
+
+        Specification<Conjunto> spec = Specification.where(null);
+
+        if (nombre != null && !nombre.isBlank()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.like(cb.lower(root.get("nombre")), "%" + nombre.toLowerCase() + "%")
+            );
+        }
+        if (tags != null && !tags.isEmpty()) {
+            spec = spec.and((root, query, cb) -> {
+                var prendasJoin = root.join("prendas", JoinType.LEFT);
+                var tagJoin = prendasJoin.join("tags", JoinType.LEFT);
+                query.distinct(true);
+                return tagJoin.get("nombre").in(tags);
+            });
+        }
+
+        return conjuntoRepository.findAll(spec, pageable)
+                .map(GetConjuntoDto::from);
     }
 }

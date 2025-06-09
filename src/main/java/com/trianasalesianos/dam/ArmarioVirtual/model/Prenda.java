@@ -42,11 +42,11 @@ public class Prenda {
 
     private LocalDateTime fechaPublicacion;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_prenda_id", nullable = false)
     private TipoPrenda tipoPrenda;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 

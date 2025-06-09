@@ -22,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -80,23 +78,25 @@ public class ComentarioService {
     }
 
     public List<GetComentarioDto> listarComentariosDePrenda(Long prendaId) {
-        Prenda prenda = prendaRepository.findById(prendaId)
+
+        prendaRepository.findById(prendaId)
                 .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + prendaId + " no encontrada"));
-        return comentarioRepository.findAll()
+
+        return comentarioRepository.findByPrendaIdWithAll(prendaId)
                 .stream()
-                .filter(c -> prenda.equals(c.getPrenda()))
                 .map(GetComentarioDto::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<GetComentarioDto> listarComentariosDeConjunto(Long conjuntoId) {
-        Conjunto conjunto = conjuntoRepository.findById(conjuntoId)
+
+        conjuntoRepository.findById(conjuntoId)
                 .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + conjuntoId + " no encontrado"));
-        return comentarioRepository.findAll()
+
+        return comentarioRepository.findByConjuntoIdWithAll(conjuntoId)
                 .stream()
-                .filter(c -> conjunto.equals(c.getConjunto()))
                 .map(GetComentarioDto::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional

@@ -14,11 +14,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -262,4 +269,50 @@ public class PrendaController {
         LikeCountDto likeCountDto = prendaService.getLikeCount(id);
         return ResponseEntity.ok(likeCountDto);
     }
+
+    @Operation(summary = "Subir o actualizar la imagen de una prenda")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Imagen subida correctamente"),
+            @ApiResponse(responseCode = "404", description = "Prenda no encontrada",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PostMapping(value = "/{id}/imagen", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> subirImagen(
+            @PathVariable Long id,
+            @RequestPart("file") MultipartFile file
+    ) throws IOException {
+        prendaService.storeImage(id, file);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Descargar la imagen de una prenda")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Imagen descargada correctamente"),
+            @ApiResponse(responseCode = "404", description = "Fichero no encontrado",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping("/{id}/imagen")
+    public ResponseEntity<Resource> descargarImagen(@PathVariable Long id) throws IOException {
+        Resource resource = prendaService.loadImageAsResource(id);
+        String contentType = Files.probeContentType(Paths.get(resource.getURI()));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    @Operation(summary = "Listar prendas (paginado y filtrable por nombre, color y tags)")
+    @GetMapping
+    public ResponseEntity<Page<GetPrendaDto>> listAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String color,
+            @RequestParam(required = false) List<String> tags
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<GetPrendaDto> resultados = prendaService.search(nombre, color, tags, pageable);
+        return ResponseEntity.ok(resultados);
+    }
+
 }
