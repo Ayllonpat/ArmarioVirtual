@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public record GetConjuntoDto(
         Long id,
         String nombre,
-        String imagenUrl,            
+        String imagenUrl,
         LocalDateTime fechaPublicacion,
         List<GetPrendaDto> prendas,
         String visibilidad,

@@ -110,10 +110,19 @@ public class PrendaService {
 
     @Transactional
     public void delete(Long id) {
-        if (!prendaRepository.existsById(id)) {
-            throw new PrendaNoEncontradaException("Prenda con id " + id + " no encontrada");
+        Prenda prenda = prendaRepository.findById(id)
+                .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + id + " no encontrada"));
+
+        if (prenda.getImagen() != null && !prenda.getImagen().isBlank()) {
+            try {
+                Path filePath = imageStorageLocation.resolve(prenda.getImagen()).normalize();
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Error borrando la imagen de la prenda " + id, e);
+            }
         }
-        prendaRepository.deleteById(id);
+
+        prendaRepository.delete(prenda);
     }
 
     @Transactional

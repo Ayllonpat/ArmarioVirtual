@@ -14,16 +14,28 @@ import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.ConjuntoRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
@@ -34,6 +46,18 @@ public class ConjuntoService {
     private final ConjuntoRepository conjuntoRepository;
     private final UsuarioRepository usuarioRepository;
     private final PrendaRepository prendaRepository;
+
+    private final Path conjuntoImageStorage =
+            Paths.get("uploads/conjuntos").toAbsolutePath().normalize();
+
+    @PostConstruct
+    public void initImagesDir() {
+        try {
+            Files.createDirectories(conjuntoImageStorage);
+        } catch (IOException e) {
+            throw new RuntimeException("No se pudo crear el directorio de imágenes de conjuntos", e);
+        }
+    }
 
     @Transactional
     public GetConjuntoDto crearConjunto(CreateConjuntoDto createConjuntoDto) {
@@ -89,11 +113,24 @@ public class ConjuntoService {
 
     @Transactional
     public void delete(Long id) {
-        if (!conjuntoRepository.existsById(id)) {
-            throw new ConjuntoNoEncontradaException("Conjunto con id " + id + " no encontrado");
+        Conjunto c = conjuntoRepository.findById(id)
+                .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + id + " no encontrado"));
+
+        if (c.getImagen() != null && !c.getImagen().isBlank()) {
+            try {
+                Path filePath = conjuntoImageStorage.resolve(c.getImagen()).normalize();
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Error borrando la imagen del conjunto " + id, e);
+            }
         }
-        conjuntoRepository.deleteById(id);
+
+        c.getTags().clear();
+        c.getClientesQueDieronLike().clear();
+
+        conjuntoRepository.delete(c);
     }
+
 
     @Transactional
     public void toggleLike(Long conjuntoId) {
@@ -144,4 +181,44 @@ public class ConjuntoService {
         return conjuntoRepository.findAll(spec, pageable)
                 .map(GetConjuntoDto::from);
     }
+
+    @Transactional
+    public void storeConjuntoImage(Long conjuntoId, MultipartFile file) {
+        Conjunto c = conjuntoRepository.findById(conjuntoId)
+                .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + conjuntoId + " no encontrado"));
+
+        String original = StringUtils.cleanPath(file.getOriginalFilename());
+        String filename = conjuntoId + "_" + original;
+
+        try (InputStream in = file.getInputStream()) {
+            Path target = conjuntoImageStorage.resolve(filename);
+            Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+            c.setImagen(filename);
+            conjuntoRepository.save(c);
+        } catch (IOException ex) {
+            throw new RuntimeException("Error al almacenar la imagen de conjunto " + conjuntoId, ex);
+        }
+    }
+
+    public Resource loadConjuntoImage(Long conjuntoId) {
+        Conjunto c = conjuntoRepository.findById(conjuntoId)
+                .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + conjuntoId + " no encontrado"));
+
+        String filename = c.getImagen();
+        if (filename == null || filename.isBlank())
+            throw new RuntimeException("Este conjunto no tiene imagen asignada");
+
+        try {
+            Path filePath = conjuntoImageStorage.resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("No se pudo leer la imagen: " + filename);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("URL inválida para la imagen: " + filename, e);
+        }
+    }
+
 }

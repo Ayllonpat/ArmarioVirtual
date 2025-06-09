@@ -63,63 +63,48 @@ public class SecurityConfig {
                         "/api/usuarios/auth/activate/**"
                 ).permitAll()
                 .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs").permitAll()
-
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/crear/admin").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/usuarios/me").hasAnyRole("CLIENTE", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/prendas/**", "/api/conjuntos/**").permitAll()
-
-                .requestMatchers(
-                        HttpMethod.POST,
+                .requestMatchers(HttpMethod.POST,
                         "/api/prendas/añadir", "/api/prendas/*/like",
                         "/api/conjuntos/añadir", "/api/conjuntos/*/like"
                 ).hasAnyRole("CLIENTE", "ADMIN")
-
                 .requestMatchers(HttpMethod.GET, "/api/prendas/*/likes", "/api/conjuntos/*/likes")
                 .hasAnyRole("CLIENTE", "ADMIN")
-
                 .requestMatchers(HttpMethod.PUT, "/api/prendas/*", "/api/conjuntos/*")
                 .hasAnyRole("CLIENTE", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/prendas/*", "/api/conjuntos/*")
                 .hasAnyRole("CLIENTE", "ADMIN")
-
-                .requestMatchers(
-                        HttpMethod.POST,
+                .requestMatchers(HttpMethod.POST,
                         "/api/usuarios/*/follow",
                         "/api/usuarios/*/unfollow"
                 ).hasRole("CLIENTE")
-                .requestMatchers(
-                        HttpMethod.GET,
+                .requestMatchers(HttpMethod.GET,
                         "/api/usuarios/*/seguidores",
                         "/api/usuarios/*/seguidos"
                 ).hasAnyRole("CLIENTE", "ADMIN")
-
                 .requestMatchers(HttpMethod.POST, "/api/tags").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/tags/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/tags").permitAll()
-                .requestMatchers(
-                        HttpMethod.POST,
+                .requestMatchers(HttpMethod.POST,
                         "/api/tags/prendas/*/tags/*",
                         "/api/tags/conjuntos/*/tags/*"
                 ).hasAnyRole("CLIENTE", "ADMIN")
-                .requestMatchers(
-                        HttpMethod.DELETE,
+                .requestMatchers(HttpMethod.DELETE,
                         "/api/tags/prendas/*/tags/*",
                         "/api/tags/conjuntos/*/tags/*"
                 ).hasAnyRole("CLIENTE", "ADMIN")
-
-                .requestMatchers(
-                        HttpMethod.POST,
+                .requestMatchers(HttpMethod.POST,
                         "/api/prendas/*/comentarios",
                         "/api/conjuntos/*/comentarios"
                 ).hasRole("CLIENTE")
-                .requestMatchers(
-                        HttpMethod.GET,
+                .requestMatchers(HttpMethod.GET,
                         "/api/prendas/*/comentarios",
                         "/api/conjuntos/*/comentarios"
                 ).permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/comentarios/*")
                 .hasAnyRole("CLIENTE", "ADMIN")
-
                 .anyRequest().authenticated()
         );
 
