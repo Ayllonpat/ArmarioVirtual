@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5145dfeb-6cf0-47e7-a194-a99d2176dae0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/register/register.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/register/register.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/register/register.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/auth/register/register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +64,7 @@
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.ArmarioVirtualApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop-api&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-web&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Pitec/OneDrive/Escritorio/Dam2/ArmarioVirtual/backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -162,7 +167,7 @@
       <workItem from="1741276766547" duration="954000" />
       <workItem from="1747587804559" duration="16540000" />
       <workItem from="1749206886101" duration="60129000" />
-      <workItem from="1749901333017" duration="22976000" />
+      <workItem from="1749901333017" duration="29542000" />
     </task>
     <servers />
   </component>
