@@ -7,7 +7,7 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 interface Item {
   id: number;
   nombre: string;
-  imagen: string;
+  imagenUrl: string;
 }
 
 @Component({

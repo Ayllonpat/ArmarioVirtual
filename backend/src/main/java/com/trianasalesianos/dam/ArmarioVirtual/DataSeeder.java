@@ -170,7 +170,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Prenda prenda1 = Prenda.builder()
                 .nombre("Camiseta Roja")
-                .imagen("camiseta_roja.jpg")
+                .imagen("camiseta_roja.jpeg")
                 .color("Rojo")
                 .talla("M")
                 .enlaceCompra("http://tienda.com/camiseta-roja")

@@ -22,7 +22,7 @@ public record GetConjuntoDto(
         String url = c.getImagen() == null
                 ? null
                 : ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/uploads/conjuntos/")
+                .path("/images/")
                 .path(c.getImagen())
                 .toUriString();
 
