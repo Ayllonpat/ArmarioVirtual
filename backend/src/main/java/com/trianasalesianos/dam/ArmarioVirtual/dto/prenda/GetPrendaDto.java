@@ -4,11 +4,9 @@ import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
-
 public record GetPrendaDto(
         String nombre,
-        String imagenUrl,      // ahora contiene la URL pública
+        String imagenUrl,
         String color,
         String talla,
         String enlaceCompra,
@@ -17,11 +15,10 @@ public record GetPrendaDto(
         GetClientePrendasDto cliente
 ) {
     public static GetPrendaDto from(Prenda p) {
-
         String url = p.getImagen() == null
                 ? null
                 : ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/uploads/prendas/")
+                .path("/images/")
                 .path(p.getImagen())
                 .toUriString();
 

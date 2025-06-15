@@ -113,6 +113,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
+                                "/images/**",
                                 "/logout",
                                 "/**/*.jsp",
                                 "/css/**",
