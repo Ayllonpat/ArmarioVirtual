@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5145dfeb-6cf0-47e7-a194-a99d2176dae0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArmarioVirtual.postman_collection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/database.mv.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/database.trace.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentacion/ArmarioVirtual.drawio" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentacion/ArmarioVirtual.drawio (1).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qodana.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/ArmarioVirtualApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/DataSeeder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/config/OpenApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/config/WebConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/ComentarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/ConjuntoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/PrendaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/TagController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/UsuarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/comentario/CreateComentarioDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/comentario/GetComentarioDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/conjunto/CreateConjuntoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/conjunto/GetConjuntoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/conjunto/UpdateConjuntoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/prenda/CreatePrendaDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/prenda/GetPrendaDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/prenda/GetTipoPrendaDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/prenda/LikeCountDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/prenda/UpdatePrendaDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/tag/CreateTagDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/tag/GetTagDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/CreateUsuarioDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/GetAdminDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/GetClienteDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/GetClientePrendasDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/GetUsuarioDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/UserResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/ComentarioNoEncontradoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/ConjuntoNoEncontradaException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/EmailDuplicadoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/PrendaNoEncontradaException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/TagNoEncontradoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/TipoPrendaNoEncontradaException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/TipoUsuarioInvalidoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/UsernameDuplicadoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/UsuarioNoAutenticadoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/error/UsuarioNoEncontradoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Admin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Cliente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Comentario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Conjunto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Prenda.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Tag.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/TipoPrenda.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Visibilidad.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/ComentarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/ConjuntoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/PrendaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/TagRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/TipoPrendaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/UsuarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/PasswordEncoderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/exceptionhandling/JwtAccessDeniedHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/exceptionhandling/JwtAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/exceptionhandling/JwtControllerAdvice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/exceptionhandling/JwtException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/ActivationToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/ActivationTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/MailConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/service/ActivationTokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/service/EmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/service/JwtService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/refresh/RefreshToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/refresh/RefreshTokenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/refresh/RefreshTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/refresh/RefreshTokenRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/refresh/RefreshTokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/ComentarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/ConjuntoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/CustomUserDetailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/PrendaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/TagService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/UsuarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-h2.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-pgsql.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/import.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/messages.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/trianasalesianos/dam/ArmarioVirtual/ArmarioVirtualApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2tJMbDDraNW3khjvQwFZjJsrUcS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.ArmarioVirtual [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ArmarioVirtual [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ArmarioVirtual [spring-boot:run].executor&quot;: &quot;Profiler#1&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ArmarioVirtualApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-web&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Pitec/OneDrive/Escritorio/Dam2/ArmarioVirtual/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Pitec\OneDrive\Escritorio\Dam2\ArmarioVirtual\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Pitec\OneDrive\Escritorio\Dam2\ArmarioVirtual\src\main\webapp" />
+      <recent name="C:\Users\Pitec\OneDrive\Escritorio\Dam2\ArmarioVirtual\src\main\resources\static\js" />
+      <recent name="C:\Users\Pitec\OneDrive\Escritorio\Dam2\ArmarioVirtual\src\main\resources\static\css" />
+      <recent name="C:\Users\Pitec\OneDrive\Escritorio\Dam2\ArmarioVirtual\src\main\webapp\META-INF\resources" />
+      <recent name="C:\Users\Pitec\OneDrive\Escritorio\Dam2\ArmarioVirtual\src\main\webapp\META-INF\css" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Maven.ArmarioVirtual [spring-boot:run]">
+    <configuration name="ArmarioVirtual [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="spring-boot:run" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="ArmarioVirtualApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ArmarioVirtual" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.trianasalesianos.dam.ArmarioVirtual.ArmarioVirtualApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Maven.ArmarioVirtual [spring-boot:run]" />
+      <item itemvalue="Spring Boot.ArmarioVirtualApplication" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5145dfeb-6cf0-47e7-a194-a99d2176dae0" name="Changes" comment="" />
+      <created>1740065792460</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740065792460</updated>
+      <workItem from="1740065793560" duration="256000" />
+      <workItem from="1740124718070" duration="366000" />
+      <workItem from="1740126233691" duration="8832000" />
+      <workItem from="1740309783846" duration="11128000" />
+      <workItem from="1740388207814" duration="14502000" />
+      <workItem from="1740498194547" duration="4032000" />
+      <workItem from="1740558766604" duration="32080000" />
+      <workItem from="1741276766547" duration="954000" />
+      <workItem from="1747587804559" duration="16540000" />
+      <workItem from="1749206886101" duration="60129000" />
+      <workItem from="1749901333017" duration="20948000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
