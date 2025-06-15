@@ -17,6 +17,7 @@ import { AuthService } from '../auth.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  showSuccessModal = false;
 
   constructor(
     private fb: FormBuilder,
@@ -26,17 +27,26 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
+      nombre:   ['', Validators.required],      
       username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email:    ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-  }
+  }  
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;
     this.auth.register(this.registerForm.value).subscribe({
-      next: () => this.router.navigate(['/login']),
+      next: () => {
+        // en lugar de navegar, muestro el modal
+        this.showSuccessModal = true;
+      },
       error: err => console.error(err)
     });
+  }
+
+  closeModal(): void {
+    this.showSuccessModal = false;
+    this.router.navigate(['/login']);
   }
 }

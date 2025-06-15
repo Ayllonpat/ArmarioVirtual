@@ -1,0 +1,31 @@
+<div class="layout">
+    <app-top-nav></app-top-nav>
+    <app-side-nav></app-side-nav>
+  
+    <main class="main-content">
+      <nav class="tab-nav">
+        <button (click)="select('conjuntos')" [class.active]="viewType==='conjuntos'">
+          Conjuntos
+        </button>
+        <button (click)="select('prendas')" [class.active]="viewType==='prendas'">
+          Prendas
+        </button>
+      </nav>
+  
+      <div class="grid">
+        <ng-container *ngIf="viewType==='conjuntos'">
+          <div *ngFor="let c of conjuntos" class="card">
+            <img [src]="c.imagen" [alt]="c.nombre">
+            <div class="name">{{ c.nombre }}</div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="viewType==='prendas'">
+          <div *ngFor="let p of prendas" class="card">
+            <img [src]="p.imagen" [alt]="p.nombre">
+            <div class="name">{{ p.nombre }}</div>
+          </div>
+        </ng-container>
+      </div>
+    </main>
+  </div>
+  

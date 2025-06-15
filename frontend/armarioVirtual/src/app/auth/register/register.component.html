@@ -3,6 +3,10 @@
     <h2>Crear cuenta</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
+        <label>Nombre</label>
+        <input formControlName="nombre" />
+      </div>      
+      <div class="form-group">
         <label>Usuario</label>
         <input formControlName="username" />
       </div>
@@ -20,5 +24,13 @@
       ¿Ya tienes cuenta?
       <a routerLink="/login">Iniciar sesión</a>
     </p>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showSuccessModal">
+  <div class="modal-box">
+    <h3>¡Registro exitoso!</h3>
+    <p>Se ha enviado un correo para validar tu cuenta.</p>
+    <button (click)="closeModal()">Cerrar</button>
   </div>
 </div>
