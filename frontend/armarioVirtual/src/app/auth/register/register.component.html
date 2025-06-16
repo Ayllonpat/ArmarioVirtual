@@ -31,6 +31,14 @@
   <div class="modal-box">
     <h3>¡Registro exitoso!</h3>
     <p>Se ha enviado un correo para validar tu cuenta.</p>
-    <button (click)="closeModal()">Cerrar</button>
+    <button (click)=" closeSuccessModal()">Cerrar</button>
   </div>
 </div>
+<div class="modal-overlay" *ngIf="showErrorModal">
+  <div class="modal-box">
+    <h3>Registro fallido</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
+</div>
+

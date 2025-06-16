@@ -17,6 +17,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  showErrorModal = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +40,13 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', token);
         this.router.navigate(['/inicio']);
       },
-      error: err => console.error(err)
+      error: () => {
+        this.showErrorModal = true;
+      }
     });
+  }
+
+  closeErrorModal(): void {
+    this.showErrorModal = false;
   }
 }

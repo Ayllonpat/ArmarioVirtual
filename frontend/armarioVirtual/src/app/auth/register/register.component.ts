@@ -18,6 +18,8 @@ import { AuthService } from '../auth.service';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   showSuccessModal = false;
+  showErrorModal = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,26 +29,34 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      nombre:   ['', Validators.required],      
+      nombre:   ['', Validators.required],
       username: ['', Validators.required],
       email:    ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-  }  
+  }
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;
     this.auth.register(this.registerForm.value).subscribe({
       next: () => {
-        // en lugar de navegar, muestro el modal
         this.showSuccessModal = true;
       },
-      error: err => console.error(err)
+      error: err => {
+        
+        this.errorMessage = err.error?.detail 
+          || 'El nombre de usuario o el correo ya están en uso.';
+        this.showErrorModal = true;
+      }
     });
   }
 
-  closeModal(): void {
+  closeSuccessModal(): void {
     this.showSuccessModal = false;
     this.router.navigate(['/login']);
+  }
+
+  closeErrorModal(): void {
+    this.showErrorModal = false;
   }
 }
