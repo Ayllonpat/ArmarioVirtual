@@ -36,7 +36,7 @@ public class TagController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))
             )
     })
-    @PostMapping
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public GetTagDto crearTag(@Valid @RequestBody CreateTagDto dto) {
         return tagService.crearTag(dto);
@@ -44,7 +44,7 @@ public class TagController {
 
     @Operation(summary = "Listar todos los tags")
     @ApiResponse(responseCode = "200", description = "Listado de tags obtenido")
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<GetTagDto>> listarTags() {
         return ResponseEntity.ok(tagService.listarTags());
     }

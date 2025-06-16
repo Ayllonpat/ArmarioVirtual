@@ -33,9 +33,11 @@ public class Conjunto {
             joinColumns = @JoinColumn(name = "conjunto_id"),
             inverseJoinColumns = @JoinColumn(name = "prenda_id")
     )
+    @Builder.Default
     private List<Prenda> prendas = new ArrayList<>();
 
     @ManyToMany(mappedBy = "conjuntos")
+    @Builder.Default
     private Set<Tag> tags = new HashSet<>();
 
     @Enumerated(EnumType.STRING)

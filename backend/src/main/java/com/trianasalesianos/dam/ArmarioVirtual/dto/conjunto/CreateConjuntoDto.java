@@ -19,7 +19,9 @@ public record CreateConjuntoDto(
 
         List<Long> prendasIds,
 
-        Visibilidad visibilidad
+        Visibilidad visibilidad,
+
+        List<Long> tagIds
 ) {
     public Conjunto toConjunto(List<Prenda> prendas, Cliente cliente) {
         return Conjunto.builder()

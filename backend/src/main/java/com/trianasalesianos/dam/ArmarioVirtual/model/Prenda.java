@@ -38,6 +38,7 @@ public class Prenda {
     private Visibilidad visibilidad;
 
     @ManyToMany(mappedBy = "prendas")
+    @Builder.Default
     private Set<Tag> tags = new HashSet<>();
 
     private LocalDateTime fechaPublicacion;

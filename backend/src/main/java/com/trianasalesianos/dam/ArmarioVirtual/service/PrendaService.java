@@ -7,11 +7,9 @@ import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.UpdatePrendaDto;
 import com.trianasalesianos.dam.ArmarioVirtual.error.PrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoPrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
-import com.trianasalesianos.dam.ArmarioVirtual.model.TipoPrenda;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
+import com.trianasalesianos.dam.ArmarioVirtual.model.*;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
+import com.trianasalesianos.dam.ArmarioVirtual.repository.TagRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.TipoPrendaRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
 import jakarta.persistence.criteria.JoinType;
@@ -43,6 +41,7 @@ public class PrendaService {
     private final PrendaRepository prendaRepository;
     private final UsuarioRepository usuarioRepository;
     private final TipoPrendaRepository tipoPrendaRepository;
+    private final TagRepository tagRepository;
 
     private final Path imageStorageLocation =
             Paths.get("uploads/prendas").toAbsolutePath().normalize();
@@ -57,21 +56,30 @@ public class PrendaService {
     }
 
     @Transactional
-    public GetPrendaDto crearPrenda(CreatePrendaDto createPrendaDto) {
-        Usuario usuario = usuarioRepository.findByUsername(
-                SecurityContextHolder.getContext().getAuthentication().getName()
-        ).orElseThrow(() -> new TipoUsuarioInvalidoException("Usuario no encontrado"));
+    public GetPrendaDto crearPrenda(CreatePrendaDto dto) {
+        Cliente cliente = usuarioRepository.findByUsername(
+                        SecurityContextHolder.getContext().getAuthentication().getName()
+                )
+                .filter(u -> u instanceof Cliente)
+                .map(Cliente.class::cast)
+                .orElseThrow(() -> new TipoUsuarioInvalidoException("Usuario no válido"));
 
-        if (!(usuario instanceof Cliente cliente)) {
-            throw new TipoUsuarioInvalidoException("El usuario no es un cliente válido");
-        }
-
-        TipoPrenda tipoPrenda = tipoPrendaRepository.findById(createPrendaDto.tipoPrenda().id())
+        TipoPrenda tipo = tipoPrendaRepository.findById(dto.tipoPrenda().id())
                 .orElseThrow(() -> new TipoPrendaNoEncontradaException("Tipo de prenda no encontrado"));
 
-        Prenda prenda = createPrendaDto.toPrenda(cliente, tipoPrenda);
-        prendaRepository.save(prenda);
-        return GetPrendaDto.from(prenda);
+        Prenda p = dto.toPrenda(cliente, tipo);
+
+        if (dto.tagIds() != null) {
+            dto.tagIds().forEach(tagId -> {
+                Tag t = tagRepository.findById(tagId)
+                        .orElseThrow(() -> new RuntimeException("Tag con id " + tagId + " no encontrado"));
+                p.getTags().add(t);
+                t.getPrendas().add(p);
+            });
+        }
+
+        prendaRepository.save(p);
+        return GetPrendaDto.from(p);
     }
 
     public List<GetPrendaDto> findAll() {
