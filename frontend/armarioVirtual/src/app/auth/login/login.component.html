@@ -16,3 +16,10 @@
     </p>
   </div>
 </div>
+<div class="modal-overlay" *ngIf="showErrorModal">
+  <div class="modal-box">
+    <h3>Autenticación fallida</h3>
+    <p>Usuario o contraseña incorrectos.</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
+</div>
