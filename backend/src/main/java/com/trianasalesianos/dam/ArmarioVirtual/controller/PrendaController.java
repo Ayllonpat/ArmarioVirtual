@@ -16,6 +16,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -314,5 +318,16 @@ public class PrendaController {
         Page<GetPrendaDto> resultados = prendaService.search(nombre, color, tags, pageable);
         return ResponseEntity.ok(resultados);
     }
+
+    @GetMapping("/cliente")
+    public ResponseEntity<List<GetPrendaDto>> misPrendas() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String username = auth.getName();
+        return ResponseEntity.ok(prendaService.findByUsername(username));
+    }
+
 
 }

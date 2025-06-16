@@ -222,4 +222,10 @@ public class PrendaService {
         return prendaRepository.findAll(spec, pageable)
                 .map(GetPrendaDto::from);
     }
+
+    public List<GetPrendaDto> findByUsername(String username) {
+        return prendaRepository.findByClienteUsername(username)
+                .stream().map(GetPrendaDto::from).toList();
+    }
+
 }

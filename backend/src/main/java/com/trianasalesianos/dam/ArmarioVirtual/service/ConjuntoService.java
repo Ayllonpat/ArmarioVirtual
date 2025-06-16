@@ -221,4 +221,11 @@ public class ConjuntoService {
         }
     }
 
+    public List<GetConjuntoDto> findByUsername(String username) {
+        return conjuntoRepository.findByClienteUsername(username)
+                .stream()
+                .map(GetConjuntoDto::from)
+                .toList();
+    }
+
 }
