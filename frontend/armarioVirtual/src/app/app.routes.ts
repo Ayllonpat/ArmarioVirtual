@@ -8,6 +8,8 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { ExplorarComponent } from './explorar/explorar.component';
 import { CrearConjuntoComponent } from './pages/crear-conjunto/crear-conjunto.component';
 import { SubirPrendaComponent } from './pages/subir-prenda/subir-prenda.component';
+import { DetallesPrendaComponent } from './detalles-prenda/detalles-prenda.component';
+import { DetallesConjuntoComponent } from './detalles-conjunto/detalles-conjunto.component';
 
 export const routes: Routes = [
   { path: '',     redirectTo: 'login', pathMatch: 'full' },
@@ -20,5 +22,7 @@ export const routes: Routes = [
   { path: 'perfil',     component: PerfilComponent },
   { path: 'mi-armario/crear-conjunto', component: CrearConjuntoComponent },
   { path: 'mi-armario/subir-prenda', component: SubirPrendaComponent },
+  { path: 'prenda/:id', component: DetallesPrendaComponent },
+  { path: 'conjunto/:id', component: DetallesConjuntoComponent },
   { path: '**',       redirectTo: 'login' }
 ];
