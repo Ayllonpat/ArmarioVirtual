@@ -44,14 +44,15 @@ public class PrendaService {
     private final UsuarioRepository usuarioRepository;
     private final TipoPrendaRepository tipoPrendaRepository;
 
-    private final Path imageStorageLocation = Paths.get("uploads/prendas").toAbsolutePath().normalize();
+    private final Path imageStorageLocation =
+            Paths.get("uploads/prendas").toAbsolutePath().normalize();
 
     @PostConstruct
     public void init() {
         try {
             Files.createDirectories(imageStorageLocation);
         } catch (IOException e) {
-            throw new RuntimeException("No se pudo crear el directorio de subida de imágenes", e);
+            throw new RuntimeException("No se pudo crear el directorio de imágenes", e);
         }
     }
 

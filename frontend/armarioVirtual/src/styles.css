@@ -92,3 +92,22 @@ main.main-content {
   background: #f5f5f5;
 }
 
+.logout {
+  margin-top: auto;
+  padding-top: 16rem ;
+}
+
+.logout a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background .2s;
+}
+
+.logout a:hover {
+  background: #424242;
+}

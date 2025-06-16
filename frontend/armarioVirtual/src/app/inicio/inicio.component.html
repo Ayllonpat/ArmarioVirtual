@@ -14,13 +14,15 @@
   
       <div class="grid">
         <ng-container *ngIf="viewType==='conjuntos'">
-            <div *ngFor="let c of conjuntos" class="card">
-                <img [src]="c.imagenUrl" [alt]="c.nombre" />
-              </div>
+          <div *ngFor="let c of conjuntos" class="card" (click)="goToDetalle(c)">
+            <img [src]="c.imagenUrl" [alt]="c.nombre" />
+            <div class="name">{{ c.nombre }}</div>
+          </div>
         </ng-container>
         <ng-container *ngIf="viewType==='prendas'">
-          <div *ngFor="let p of prendas" class="card">
-            <img [src]="p.imagenUrl" [alt]="p.nombre">
+          <div *ngFor="let p of prendas" class="card" (click)="goToDetalle(p)">
+            <img [src]="p.imagenUrl" [alt]="p.nombre" />
+            <div class="name">{{ p.nombre }}</div>
           </div>
         </ng-container>
       </div>
