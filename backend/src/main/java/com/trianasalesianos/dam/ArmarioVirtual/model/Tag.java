@@ -31,6 +31,7 @@ public class Tag {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "prenda_id")
     )
+    @Builder.Default
     private List<Prenda> prendas = new ArrayList<>();
 
     @ManyToMany
@@ -39,6 +40,7 @@ public class Tag {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "conjunto_id")
     )
+    @Builder.Default
     private List<Conjunto> conjuntos = new ArrayList<>();
 
 

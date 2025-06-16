@@ -7,12 +7,10 @@ import com.trianasalesianos.dam.ArmarioVirtual.dto.conjunto.UpdateConjuntoDto;
 import com.trianasalesianos.dam.ArmarioVirtual.error.ConjuntoNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.PrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Cliente;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Conjunto;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Prenda;
-import com.trianasalesianos.dam.ArmarioVirtual.model.Usuario;
+import com.trianasalesianos.dam.ArmarioVirtual.model.*;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.ConjuntoRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
+import com.trianasalesianos.dam.ArmarioVirtual.repository.TagRepository;
 import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.criteria.JoinType;
@@ -46,6 +44,7 @@ public class ConjuntoService {
     private final ConjuntoRepository conjuntoRepository;
     private final UsuarioRepository usuarioRepository;
     private final PrendaRepository prendaRepository;
+    private final TagRepository tagRepository;
 
     private final Path conjuntoImageStorage =
             Paths.get("uploads/conjuntos").toAbsolutePath().normalize();
@@ -60,24 +59,35 @@ public class ConjuntoService {
     }
 
     @Transactional
-    public GetConjuntoDto crearConjunto(CreateConjuntoDto createConjuntoDto) {
-        Usuario usuario = usuarioRepository.findByUsername(
-                SecurityContextHolder.getContext().getAuthentication().getName()
-        ).orElseThrow(() -> new TipoUsuarioInvalidoException("Usuario no encontrado"));
+    public GetConjuntoDto crearConjunto(CreateConjuntoDto dto) {
+        Cliente cliente = usuarioRepository.findByUsername(
+                        SecurityContextHolder.getContext().getAuthentication().getName()
+                )
+                .filter(u -> u instanceof Cliente)
+                .map(Cliente.class::cast)
+                .orElseThrow(() -> new TipoUsuarioInvalidoException("Usuario no válido"));
 
-        if (!(usuario instanceof Cliente cliente)) {
-            throw new TipoUsuarioInvalidoException("El usuario no es un cliente válido");
-        }
-
-        List<Prenda> prendas = createConjuntoDto.prendasIds().stream()
+        List<Prenda> prendas = dto.prendasIds().stream()
                 .map(id -> prendaRepository.findById(id)
                         .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + id + " no encontrada")))
                 .toList();
 
-        Conjunto conjunto = createConjuntoDto.toConjunto(prendas, cliente);
-        conjuntoRepository.save(conjunto);
-        return GetConjuntoDto.from(conjunto);
+        Conjunto c = dto.toConjunto(prendas, cliente);
+
+        // ** Añadir tags al conjunto **
+        if (dto.tagIds() != null) {
+            dto.tagIds().forEach(tagId -> {
+                Tag t = tagRepository.findById(tagId)
+                        .orElseThrow(() -> new RuntimeException("Tag con id " + tagId + " no encontrado"));
+                c.getTags().add(t);
+                t.getConjuntos().add(c);
+            });
+        }
+
+        conjuntoRepository.save(c);
+        return GetConjuntoDto.from(c);
     }
+
 
     public List<GetConjuntoDto> findAll() {
         return conjuntoRepository.findAllWithAll()

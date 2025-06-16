@@ -2,6 +2,7 @@ package com.trianasalesianos.dam.ArmarioVirtual.dto.conjunto;
 
 import com.trianasalesianos.dam.ArmarioVirtual.model.Conjunto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.prenda.GetPrendaDto;
+import com.trianasalesianos.dam.ArmarioVirtual.dto.tag.GetTagDto;
 import com.trianasalesianos.dam.ArmarioVirtual.dto.usuario.GetClientePrendasDto;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -16,7 +17,8 @@ public record GetConjuntoDto(
         LocalDateTime fechaPublicacion,
         List<GetPrendaDto> prendas,
         String visibilidad,
-        GetClientePrendasDto cliente
+        GetClientePrendasDto cliente,
+        List<GetTagDto> tags
 ) {
     public static GetConjuntoDto from(Conjunto c) {
         String url = c.getImagen() == null
@@ -31,12 +33,14 @@ public record GetConjuntoDto(
                 c.getNombre(),
                 url,
                 c.getFechaPublicacion(),
-                c.getPrendas().stream().map(GetPrendaDto::from).collect(Collectors.toList()),
+                c.getPrendas().stream()
+                        .map(GetPrendaDto::from)
+                        .collect(Collectors.toList()),
                 c.getVisibilidad().toString(),
-                new GetClientePrendasDto(
-                        c.getCliente().getId().toString(),
-                        c.getCliente().getUsername()
-                )
+                GetClientePrendasDto.from(c.getCliente()),
+                c.getTags().stream()
+                        .map(GetTagDto::from)
+                        .collect(Collectors.toList())
         );
     }
 }

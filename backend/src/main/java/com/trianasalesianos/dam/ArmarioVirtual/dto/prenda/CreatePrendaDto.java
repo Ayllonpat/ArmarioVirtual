@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record CreatePrendaDto(
         @NotBlank(message = "{error.nombre.blank}")
@@ -28,7 +29,9 @@ public record CreatePrendaDto(
 
         GetTipoPrendaDto tipoPrenda,
 
-        Visibilidad visibilidad
+        Visibilidad visibilidad,
+
+        List<Long> tagIds
 ) {
     public Prenda toPrenda(Cliente cliente, TipoPrenda tipoPrenda) {
         return Prenda.builder()

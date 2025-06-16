@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -33,6 +34,9 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TagRepository tagRepository;
+
     @Override
     public void run(String... args) throws Exception {
         if (usuarioRepository.count() == 0) {
@@ -46,6 +50,7 @@ public class DataSeeder implements CommandLineRunner {
     private List<Cliente> clientes;
     private List<TipoPrenda> tipoPrendas;
     private List<Admin> admins;
+    private List<Tag> tags;
 
     private void seedAdmins() {
         Admin admin1 = Admin.builder()
@@ -93,6 +98,11 @@ public class DataSeeder implements CommandLineRunner {
                 .build();
 
         clientes = usuarioRepository.saveAll(List.of(cliente1, cliente2));
+    }
+
+    private Tag findOrCreateTag(String nombre) {
+        return tagRepository.findByNombre(nombre)
+                .orElseGet(() -> tagRepository.save(Tag.builder().nombre(nombre).build()));
     }
 
     private void seedPrendasYConjuntos() {
@@ -168,49 +178,75 @@ public class DataSeeder implements CommandLineRunner {
                 .build();
         tipoPrendaRepository.save(botines);
 
-        Prenda prenda1 = Prenda.builder()
+        Tag elegante       = findOrCreateTag("elegante");
+        Tag gotico        = findOrCreateTag("gótico");
+        Tag urbano        = findOrCreateTag("urbano");
+        Tag deportivo     = findOrCreateTag("deportivo");
+        Tag casual        = findOrCreateTag("casual");
+        Tag formal        = findOrCreateTag("formal");
+        Tag bohemio       = findOrCreateTag("bohemio");
+        Tag vintage       = findOrCreateTag("vintage");
+        Tag minimalista   = findOrCreateTag("minimalista");
+        Tag colorido      = findOrCreateTag("colorido");
+
+        Prenda p1 = Prenda.builder()
                 .nombre("Camiseta Roja")
                 .imagen("camiseta_roja.jpeg")
                 .color("Rojo")
                 .talla("M")
                 .enlaceCompra("http://tienda.com/camiseta-roja")
-                .visibilidad(Visibilidad.valueOf("PUBLICO"))
+                .visibilidad(Visibilidad.PUBLICO)
                 .fechaPublicacion(LocalDateTime.now())
                 .cliente(clientes.get(0))
                 .tipoPrenda(camiseta)
                 .build();
+        p1.getTags().add(deportivo);
+        deportivo.getPrendas().add(p1);
 
-        Prenda prenda2 = Prenda.builder()
+        p1.getTags().add(minimalista);
+        minimalista.getPrendas().add(p1);
+
+        Prenda p2 = Prenda.builder()
                 .nombre("Pantalón Azul")
                 .imagen("pantalon_azul.jpg")
                 .color("Azul")
                 .talla("L")
                 .enlaceCompra("http://tienda.com/pantalon-azul")
-                .visibilidad(Visibilidad.valueOf("PUBLICO"))
+                .visibilidad(Visibilidad.PUBLICO)
                 .fechaPublicacion(LocalDateTime.now())
                 .cliente(clientes.get(1))
                 .tipoPrenda(pantalon)
                 .build();
+        p2.getTags().add(urbano);
+        urbano.getPrendas().add(p2);
 
-        prendaRepository.saveAll(List.of(prenda1, prenda2));
+        prendaRepository.saveAll(List.of(p1, p2));
 
-        Conjunto conjunto1 = Conjunto.builder()
+        Conjunto c1 = Conjunto.builder()
                 .nombre("Conjunto Deportivo")
                 .imagen("conjunto_deportivo.jpg")
                 .fechaPublicacion(LocalDateTime.now())
-                .visibilidad(Visibilidad.valueOf("PUBLICO"))
+                .visibilidad(Visibilidad.PUBLICO)
                 .cliente(clientes.get(0))
                 .build();
+        c1.getPrendas().add(p1);
+        c1.getTags().add(deportivo);
+        deportivo.getConjuntos().add(c1);
 
-        Conjunto conjunto2 = Conjunto.builder()
+        Conjunto c2 = Conjunto.builder()
                 .nombre("Conjunto Casual")
                 .imagen("conjunto_casual.jpg")
                 .fechaPublicacion(LocalDateTime.now())
-                .visibilidad(Visibilidad.valueOf("PUBLICO"))
+                .visibilidad(Visibilidad.PUBLICO)
                 .cliente(clientes.get(1))
                 .build();
+        c2.getPrendas().add(p2);
+        c2.getTags().add(casual);
+        casual.getConjuntos().add(c2);
+        c2.getTags().add(colorido);
+        colorido.getConjuntos().add(c2);
 
-        conjuntoRepository.saveAll(List.of(conjunto1, conjunto2));
+        conjuntoRepository.saveAll(List.of(c1, c2));
     }
 
     private void seedComentarios() {
