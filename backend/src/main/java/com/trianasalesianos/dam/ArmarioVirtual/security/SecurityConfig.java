@@ -76,7 +76,7 @@ public class SecurityConfig {
                                 "/api/conjuntos/añadir", "/api/conjuntos/*/like"
                         ).hasAnyRole("CLIENTE","ADMIN")
                         .requestMatchers(HttpMethod.GET,
-                                "/api/prendas/*/likes", "/api/conjuntos/*/likes"
+                                "/api/prendas/*/likes", "/api/conjuntos/*/likes", "/api/prendas/*", "/api/conjuntos/*"
                         ).hasAnyRole("CLIENTE","ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/prendas/*", "/api/conjuntos/*")
                         .hasAnyRole("CLIENTE","ADMIN")
