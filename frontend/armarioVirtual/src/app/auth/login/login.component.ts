@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    localStorage.removeItem('token');
     if (this.loginForm.invalid) return;
 
     this.auth.login(this.loginForm.value).subscribe({
