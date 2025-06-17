@@ -6,27 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5145dfeb-6cf0-47e7-a194-a99d2176dae0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/DataSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/DataSeeder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/config/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/ConjuntoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/ConjuntoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/PrendaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/PrendaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/controller/UsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/CreateUsuarioDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/CreateUsuarioDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/GetClienteDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/dto/usuario/GetClienteDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Prenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/model/Prenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/ComentarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/repository/ComentarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/security/jwt/acceso/service/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/ComentarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/ComentarioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/ConjuntoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/ConjuntoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/PrendaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/PrendaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/UsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/trianasalesianos/dam/ArmarioVirtual/service/UsuarioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/inicio/inicio.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/app/inicio/inicio.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/armarioVirtual/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/armarioVirtual/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +163,7 @@
       <workItem from="1747587804559" duration="16540000" />
       <workItem from="1749206886101" duration="60129000" />
       <workItem from="1749901333017" duration="72840000" />
-      <workItem from="1750140016234" duration="38544000" />
+      <workItem from="1750140016234" duration="39591000" />
     </task>
     <servers />
   </component>
