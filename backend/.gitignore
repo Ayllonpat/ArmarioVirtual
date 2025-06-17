@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignorar configuración sensible de Spring Boot
+/src/main/resources/application.properties
+/src/main/resources/application-*.properties
