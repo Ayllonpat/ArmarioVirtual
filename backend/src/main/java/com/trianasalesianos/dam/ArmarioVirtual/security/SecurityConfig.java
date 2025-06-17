@@ -69,7 +69,7 @@ public class SecurityConfig {
 
                         // El resto de la API
                         .requestMatchers("/api/usuarios/crear/admin").hasRole("ADMIN")
-                        .requestMatchers("/api/usuarios/me").hasAnyRole("CLIENTE","ADMIN")
+                        .requestMatchers("/api/usuarios/me", "/api/usuarios/**").hasAnyRole("CLIENTE","ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/prendas/**", "/api/conjuntos/**", "/api/tags/**").permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/prendas/añadir", "/api/prendas/*/like",
@@ -92,7 +92,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,
                                 "/api/tags",
                                 "/api/prendas/*/comentarios", "/api/conjuntos/*/comentarios"
-                        ).hasRole("ADMIN")
+                        ).hasAnyRole("ADMIN", "CLIENTE")
                         .requestMatchers(HttpMethod.DELETE,
                                 "/api/tags/*", "/api/comentarios/*"
                         ).hasAnyRole("CLIENTE","ADMIN")

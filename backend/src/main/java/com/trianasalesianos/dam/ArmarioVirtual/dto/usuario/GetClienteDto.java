@@ -19,8 +19,8 @@ public record GetClienteDto(
         List<GetConjuntoDto> conjuntos,
         List<GetPrendaDto> favoritoPrendas,
         List<GetConjuntoDto> favoritoConjunto,
-        List<GetClienteDto> seguidores,
-        List<GetClienteDto> seguidos
+        List<GetClienteSimpleDto> seguidores,
+        List<GetClienteSimpleDto> seguidos
 ) {
     public static GetClienteDto from(Cliente cliente) {
         List<GetPrendaDto> prendas = Optional.ofNullable(cliente.getPrendas())
@@ -47,16 +47,16 @@ public record GetClienteDto(
                 .map(GetConjuntoDto::from)
                 .collect(Collectors.toList());
 
-        List<GetClienteDto> seguidores = Optional.ofNullable(cliente.getSeguidores())
+        List<GetClienteSimpleDto> seguidores = Optional.ofNullable(cliente.getSeguidores())
                 .orElse(List.of())
                 .stream()
-                .map(GetClienteDto::from)
+                .map(GetClienteSimpleDto::from)
                 .collect(Collectors.toList());
 
-        List<GetClienteDto> seguidos = Optional.ofNullable(cliente.getSeguidos())
+        List<GetClienteSimpleDto> seguidos = Optional.ofNullable(cliente.getSeguidos())
                 .orElse(List.of())
                 .stream()
-                .map(GetClienteDto::from)
+                .map(GetClienteSimpleDto::from)
                 .collect(Collectors.toList());
 
         return new GetClienteDto(

@@ -48,6 +48,7 @@ public class JwtService {
                 .header().type(TOKEN_TYPE)
                 .and()
                 .subject(user.getId().toString())
+                .claim("role", user.getRole().name())
                 .issuedAt(new Date())
                 .expiration(tokenExpirationDate)
                 .signWith(secretKey)

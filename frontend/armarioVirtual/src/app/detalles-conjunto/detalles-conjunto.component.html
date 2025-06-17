@@ -1,0 +1,78 @@
+<div class="layout" *ngIf="detalle">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+
+  <main class="detail-content">
+    <div class="image-panel">
+      <img [src]="detalle.conjunto.imagenUrl" [alt]="detalle.conjunto.nombre" />
+    </div>
+
+    <div class="info-panel">
+      <h1>{{ detalle.conjunto.nombre }}</h1>
+
+      <div class="meta">
+        <span>Publicado por <a [routerLink]="['/perfil', detalle.conjunto.cliente.id]">
+    {{ detalle.conjunto.cliente.username }}
+  </a>
+</span>
+        <span>{{ detalle.conjunto.fechaPublicacion | date: 'mediumDate' }}</span>
+      </div>
+
+      <div class="stats">
+
+        <i 
+          [ngClass]="liked ? 'bi-heart-fill text-danger' : 'bi-heart'"
+          style="font-size: 1.5rem; cursor: pointer;"
+          (click)="toggleLike()"
+        ></i>
+        <span>{{ likes }}</span>
+      
+        <div class="tags-inline" *ngIf="detalle.conjunto.tags?.length">
+          <span *ngFor="let t of detalle.conjunto.tags" class="tag-badge">
+            {{ t.nombre }}
+          </span>
+        </div>
+      </div>
+      
+
+      <div class="prendas-list">
+        <h3>Prendas del conjunto</h3>
+        <div
+          class="thumb"
+          *ngFor="let p of detalle.conjunto.prendas"
+          (click)="goToPrendaDetalle(p.id)"
+        >
+          <img [src]="p.imagenUrl" [alt]="p.nombre" />
+        </div>
+      </div>
+
+      <div class="comments ms-2">
+        <h3>Comentarios ({{ comentarios.length }})</h3>
+
+        <div *ngIf="comentarios.length === 0">
+          <em>No hay comentarios aún.</em>
+        </div>
+
+        <div *ngFor="let c of comentarios" class="comment">
+          <a [routerLink]="['/perfil', c.cliente.id]">
+  {{ c.cliente.username }}
+</a>
+          <small>{{ c.fechaPublicacion | date: 'short' }}</small>
+          <p>{{ c.contenido }}</p>
+          <i
+            *ngIf="c.cliente.username === usuarioLogueado"
+            class="bi-trash3 text-danger"
+            style="cursor: pointer;"
+            (click)="borrarComentario(c.id)"
+            title="Eliminar comentario"
+          ></i>
+        </div>
+
+        <div class="add-comment">
+          <textarea [(ngModel)]="nuevoComentario" placeholder="Escribe un comentario..." rows="3"></textarea>
+          <button (click)="enviarComentario()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

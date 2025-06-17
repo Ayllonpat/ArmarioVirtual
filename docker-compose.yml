@@ -1,5 +1,6 @@
-services:
+version: '3.8'
 
+services:
   pg:
     image: postgres:16-alpine
     environment:
@@ -30,11 +31,29 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
-  armariovirtual:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: ArmarioVirtual
-    build: .
     ports:
       - "8080:8080"
+    volumes:
+      - ./uploads:/uploads
+      - ./images:/images
+    depends_on:
+      - pg
+
+  frontend:
+    build:
+      context: ./frontend/armarioVirtual
+      dockerfile: Dockerfile
+    container_name: frontend-armariovirtual
+    ports:
+      - "4200:80"
+      - "80:80" 
+    depends_on:
+      - backend
 
 volumes:
   pgdata:

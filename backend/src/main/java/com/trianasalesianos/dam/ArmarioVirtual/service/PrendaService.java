@@ -8,10 +8,8 @@ import com.trianasalesianos.dam.ArmarioVirtual.error.PrendaNoEncontradaException
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoPrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
 import com.trianasalesianos.dam.ArmarioVirtual.model.*;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.TagRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.TipoPrendaRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import com.trianasalesianos.dam.ArmarioVirtual.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -31,7 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +42,8 @@ public class PrendaService {
     private final UsuarioRepository usuarioRepository;
     private final TipoPrendaRepository tipoPrendaRepository;
     private final TagRepository tagRepository;
+    private final ComentarioRepository comentarioRepository;
+
 
     private final Path imageStorageLocation =
             Paths.get("uploads/prendas").toAbsolutePath().normalize();
@@ -131,8 +133,19 @@ public class PrendaService {
             }
         }
 
+        prenda.getTags().clear();
+
+        prenda.getClientesQueDieronLike().clear();
+
+        for (Conjunto conjunto : new ArrayList<>(prenda.getConjuntos())) {
+            conjunto.getPrendas().remove(prenda);
+        }
+
+        comentarioRepository.deleteByPrendaId(prenda.getId());
+
         prendaRepository.delete(prenda);
     }
+
 
     @Transactional
     public void toggleLike(Long prendaId) {
@@ -146,13 +159,19 @@ public class PrendaService {
                 .orElseThrow(() -> new PrendaNoEncontradaException("Prenda con id " + prendaId + " no encontrada"));
 
         if (prendaRepository.existsLikeByCliente(prendaId, cliente.getId())) {
+            // Quitar like
             prenda.getClientesQueDieronLike().remove(cliente);
+            cliente.getFavoritoPrendas().remove(prenda);
         } else {
+            // Dar like
             prenda.getClientesQueDieronLike().add(cliente);
+            cliente.getFavoritoPrendas().add(prenda);
         }
 
         prendaRepository.save(prenda);
+        usuarioRepository.save(cliente);
     }
+
 
     public LikeCountDto getLikeCount(Long prendaId) {
         if (!prendaRepository.existsById(prendaId)) {
@@ -236,5 +255,19 @@ public class PrendaService {
         return prendaRepository.findByClienteUsername(username)
                 .stream().map(GetPrendaDto::from).toList();
     }
+
+    public List<GetPrendaDto> getPrendasDeUsuario(UUID id) {
+        Usuario user = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+
+        if (!(user instanceof Cliente cliente)) {
+            throw new IllegalStateException("El usuario no es un cliente");
+        }
+
+        return cliente.getPrendas().stream()
+                .map(GetPrendaDto::from)
+                .toList();
+    }
+
 
 }

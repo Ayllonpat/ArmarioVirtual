@@ -1,0 +1,73 @@
+<div class="layout">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+  <main class="main-content">
+    <div class="form-container">
+      <h2>Subir Prenda</h2>
+      <form [formGroup]="prendaForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre, color, talla, enlace... (igual que antes) -->
+        <div class="field">
+          <label>Nombre</label>
+          <input formControlName="nombre" />
+          <small *ngIf="prendaForm.get('nombre')?.invalid && prendaForm.get('nombre')?.touched">
+            El nombre es obligatorio y máximo 150 caracteres.
+          </small>
+        </div>
+        <div class="field"><label>Color</label><input formControlName="color" /></div>
+        <div class="field"><label>Talla</label><input formControlName="talla" /></div>
+        <div class="field">
+          <label>Enlace de Compra</label>
+          <input formControlName="enlaceCompra" />
+        </div>
+
+        <!-- Tipo de prenda -->
+        <div class="field full-width">
+          <label>Tipo de Prenda</label>
+          <select formControlName="tipoPrendaId">
+            <option *ngFor="let tipo of tipos" [value]="tipo.id">{{ tipo.nombre }}</option>
+          </select>
+        </div>
+
+        <!-- Visibilidad -->
+        <div class="field full-width">
+          <label>Visibilidad</label>
+          <select formControlName="visibilidad">
+            <option value="PRIVADO">Privado</option>
+            <option value="PUBLICO">Público</option>
+          </select>
+        </div>
+
+        <!-- Selección de tags -->
+        <div class="field">
+          <label>Tags</label>
+          <div class="checkbox-group">
+            <label *ngFor="let t of tags">
+              <input
+                type="checkbox"
+                [value]="t.id"
+                (change)="onTagCheckChange($event)"
+              /> {{ t.nombre }}
+            </label>
+          </div>
+          <small *ngIf="prendaForm.get('tagIds')?.invalid && prendaForm.get('tagIds')?.touched">
+            Selecciona al menos un tag
+          </small>
+        </div>
+
+        <!-- Imagen -->
+        <div class="field full-width">
+          <label>Imagen</label>
+          <input type="file" (change)="onFileSelected($event)" />
+        </div>
+
+        <!-- Botón -->
+        <div class="field full-width actions">
+          <button type="submit" [disabled]="prendaForm.invalid || loading">Crear Prenda</button>
+        </div>
+      </form>
+
+      <div *ngIf="loading" class="loading">Subiendo...</div>
+      <div *ngIf="error" class="error">{{ error }}</div>
+    </div>
+  </main>
+</div>

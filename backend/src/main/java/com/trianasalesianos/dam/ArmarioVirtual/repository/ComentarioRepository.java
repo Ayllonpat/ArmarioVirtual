@@ -2,6 +2,7 @@ package com.trianasalesianos.dam.ArmarioVirtual.repository;
 
 import com.trianasalesianos.dam.ArmarioVirtual.model.Comentario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -29,5 +30,13 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
             WHERE co.conjunto.id = :conjuntoId
            """)
     List<Comentario> findByConjuntoIdWithAll(@Param("conjuntoId") Long conjuntoId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM Comentario c WHERE c.prenda.id = :prendaId")
+    void deleteByPrendaId(@Param("prendaId") Long prendaId);
+
+    @Modifying
+    @Query("DELETE FROM Comentario c WHERE c.conjunto.id = :conjuntoId")
+    void deleteByConjuntoId(@Param("conjuntoId") Long conjuntoId);
 
 }

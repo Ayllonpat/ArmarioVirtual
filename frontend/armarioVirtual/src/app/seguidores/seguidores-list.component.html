@@ -1,0 +1,32 @@
+<div class="layout">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+
+  <main class="detail-content">
+    <div class="listas-container">
+
+      <section class="lista">
+        <h2>Seguidores</h2>
+        <ul>
+          <li *ngFor="let u of seguidores">
+            <a [routerLink]="['/perfil', u.id]">
+              {{ u.username }}
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="lista">
+        <h2>Seguidos</h2>
+        <ul>
+          <li *ngFor="let u of seguidos">
+            <a [routerLink]="['/perfil', u.id]">
+              {{ u.username }}
+            </a>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+</div>

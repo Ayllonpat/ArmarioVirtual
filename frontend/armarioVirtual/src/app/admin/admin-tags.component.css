@@ -1,0 +1,86 @@
+.admin-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh; /* dejas espacio para el top nav */
+  position: relative;
+}
+
+.tag-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.tag-form h2 {
+  margin-bottom: 1rem;
+}
+
+.tag-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tag-form input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.tag-form button {
+  padding: 0.5rem;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tag-form button:hover {
+  background: #555;
+}
+
+.mensaje {
+  margin-top: 1rem;
+  color: green;
+}
+
+/* ✅ Botón cerrar sesión abajo derecha */
+.logout-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.layout app-top-nav {
+  flex-shrink: 0;
+}
+
+.layout main.admin-content {
+  flex: 1;
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f8f8f8;
+  padding: 2rem;
+}
