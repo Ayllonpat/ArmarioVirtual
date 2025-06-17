@@ -1,0 +1,22 @@
+<div class="layout">
+  <app-top-nav></app-top-nav>
+
+  <main class="admin-content">
+    <section class="tag-form">
+      <h2>Crear Tag</h2>
+      <form (submit)="crearTag(); $event.preventDefault()">
+        <input 
+          type="text" 
+          placeholder="Nombre del tag" 
+          [(ngModel)]="nuevoTagNombre" 
+          name="tagNombre"
+          required
+        />
+        <button type="submit">Crear</button>
+      </form>
+      <p class="mensaje">{{ mensaje }}</p>
+    </section>
+
+    <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button>
+  </main>
+</div>

@@ -1,0 +1,105 @@
+
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Perfil encabezado fijo arriba */
+.perfil-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.perfil-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.perfil-header button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.perfil-header button:hover {
+  background: #555;
+}
+
+.perfil-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.perfil-stats button {
+  background: #5c5c5c;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.perfil-stats button:hover {
+  background: #ddd;
+}
+
+/* Tabs de navegación */
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tab-nav button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  font-size: 1rem;
+}
+
+.tab-nav button.active {
+  border-color: #333;
+  font-weight: bold;
+}
+
+/* Grid para cartas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card .name {
+  margin: 0;
+  padding: 0.5rem;
+  font-weight: 500;
+}

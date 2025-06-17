@@ -1,0 +1,45 @@
+<div class="layout">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+
+  <main class="main-content">
+    <nav class="tab-nav">
+      <button (click)="select('conjuntos')" [class.active]="viewType === 'conjuntos'">
+        Conjuntos
+      </button>
+      <button (click)="select('prendas')" [class.active]="viewType === 'prendas'">
+        Prendas
+      </button>
+    </nav>
+
+    <div class="actions">
+      <button class="primary" (click)="navigateToForm()">
+        {{ viewType === 'conjuntos' ? 'Crear Conjunto' : 'Subir Prenda' }}
+      </button>
+    </div>
+
+    <div class="grid">
+      <ng-container *ngIf="viewType === 'conjuntos'">
+        <div
+          *ngFor="let c of items"
+          class="card"
+          (click)="goToDetalle(c)"  
+        >
+          <img [src]="c.imagenUrl" [alt]="c.nombre" />
+          <div class="name">{{ c.nombre }}</div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="viewType === 'prendas'">
+        <div
+          *ngFor="let p of items"
+          class="card"
+          (click)="goToDetalle(p)"  
+        >
+          <img [src]="p.imagenUrl" [alt]="p.nombre" />
+          <div class="name">{{ p.nombre }}</div>
+        </div>
+      </ng-container>
+    </div>
+  </main>
+</div>

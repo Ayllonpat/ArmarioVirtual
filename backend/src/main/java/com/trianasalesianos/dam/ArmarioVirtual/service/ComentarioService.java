@@ -101,9 +101,14 @@ public class ComentarioService {
 
     @Transactional
     public void eliminarComentario(Long comentarioId) {
-        if (!comentarioRepository.existsById(comentarioId)) {
-            throw new ComentarioNoEncontradoException("Comentario con id " + comentarioId + " no encontrado");
+        Comentario comentario = comentarioRepository.findById(comentarioId)
+                .orElseThrow(() -> new ComentarioNoEncontradoException("Comentario con id " + comentarioId + " no encontrado"));
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!comentario.getCliente().getUsername().equals(username)) {
+            throw new SecurityException("No puedes borrar un comentario que no es tuyo");
         }
-        comentarioRepository.deleteById(comentarioId);
+
+        comentarioRepository.delete(comentario);
     }
 }

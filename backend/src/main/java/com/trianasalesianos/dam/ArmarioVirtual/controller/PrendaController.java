@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/prendas")
@@ -329,5 +330,9 @@ public class PrendaController {
         return ResponseEntity.ok(prendaService.findByUsername(username));
     }
 
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<GetPrendaDto>> getPrendasDeUsuario(@PathVariable UUID id) {
+        return ResponseEntity.ok(prendaService.getPrendasDeUsuario(id));
+    }
 
 }

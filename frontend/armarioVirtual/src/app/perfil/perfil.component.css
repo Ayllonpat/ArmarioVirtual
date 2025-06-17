@@ -1,0 +1,114 @@
+
+
+.detail-content {
+  padding: 2rem;
+}
+
+.perfil-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.perfil-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.perfil-header .username {
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.perfil-header .email {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.perfil-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.perfil-stats button {
+  background: #eee;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.tab-nav button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-nav button.active {
+  border-color: #333;
+  font-weight: bold;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+.detail-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.perfil-header {
+  margin-bottom: 1rem;
+}
+
+.perfil-stats {
+  margin-bottom: 2rem;
+  max-height: 10%;
+}
+
+.tab-nav button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+
+.tab-nav button.active {
+  background: #333;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin: 0.5rem 0;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+ul li a:hover {
+  text-decoration: underline;
+}

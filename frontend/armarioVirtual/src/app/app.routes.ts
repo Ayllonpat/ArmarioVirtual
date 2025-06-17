@@ -10,6 +10,9 @@ import { CrearConjuntoComponent } from './pages/crear-conjunto/crear-conjunto.co
 import { SubirPrendaComponent } from './pages/subir-prenda/subir-prenda.component';
 import { DetallesPrendaComponent } from './detalles-prenda/detalles-prenda.component';
 import { DetallesConjuntoComponent } from './detalles-conjunto/detalles-conjunto.component';
+import { SeguidoresListComponent } from './seguidores/seguidores-list.component';
+import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
+import { AdminTagsComponent } from './admin/admin-tags.component';
 
 export const routes: Routes = [
   { path: '',     redirectTo: 'login', pathMatch: 'full' },
@@ -24,5 +27,15 @@ export const routes: Routes = [
   { path: 'mi-armario/subir-prenda', component: SubirPrendaComponent },
   { path: 'prenda/:id', component: DetallesPrendaComponent },
   { path: 'conjunto/:id', component: DetallesConjuntoComponent },
+  {
+  path: 'seguidores/:id', component: SeguidoresListComponent },
+{
+  path: 'seguidos/:id',
+  component: SeguidoresListComponent
+},
+{
+  path: 'perfil/:id',component: PerfilUsuarioComponent
+},
+{ path: 'admin/tags', component: AdminTagsComponent },
   { path: '**',       redirectTo: 'login' }
 ];

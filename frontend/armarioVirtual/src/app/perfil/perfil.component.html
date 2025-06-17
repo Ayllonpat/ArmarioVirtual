@@ -1,0 +1,78 @@
+<div class="layout" *ngIf="perfil">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+
+  <main class="detail-content">
+    <!-- HEADER -->
+    <section class="perfil-header">
+      <h1>{{ perfil.nombre }}</h1>
+      <p class="username">{{ perfil.username }}</p>
+      <p class="email">{{ perfil.email }}</p>
+    </section>
+
+    <!-- STATS -->
+    <section class="perfil-stats">
+      <button (click)="goToFollowers()">
+        Seguidores: {{ perfil.seguidores?.length || 0 }}
+      </button>
+      <button (click)="goToFollowing()">
+        Seguidos: {{ perfil.seguidos?.length || 0 }}
+      </button>
+    </section>
+
+    <!-- TABS -->
+    <section class="perfil-tabs">
+      <nav class="tab-nav">
+        <button (click)="select('conjuntos')" [class.active]="viewType==='conjuntos'">Conjuntos</button>
+        <button (click)="select('prendas')" [class.active]="viewType==='prendas'">Prendas</button>
+        <button (click)="select('favoritos')" [class.active]="viewType==='favoritos'">Favoritos</button>
+      </nav>
+
+      <!-- CONJUNTOS -->
+      <div *ngIf="viewType==='conjuntos'">
+        <h2>Conjuntos</h2>
+        <ul>
+          <li *ngFor="let conjunto of perfil.conjuntos">
+            <a [routerLink]="['/conjunto', conjunto.id]">
+              {{ conjunto.nombre }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- PRENDAS -->
+      <div *ngIf="viewType==='prendas'">
+        <h2>Prendas</h2>
+        <ul>
+          <li *ngFor="let prenda of perfil.prendas">
+            <a [routerLink]="['/prenda', prenda.id]">
+              {{ prenda.nombre }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- FAVORITOS -->
+      <div *ngIf="viewType==='favoritos'">
+        <h2>Favoritos</h2>
+        <h3>Prendas</h3>
+        <ul>
+          <li *ngFor="let prenda of perfil.favoritoPrendas">
+            <a [routerLink]="['/prenda', prenda.id]">
+              {{ prenda.nombre }}
+            </a>
+          </li>
+        </ul>
+
+        <h3>Conjuntos</h3>
+        <ul>
+          <li *ngFor="let conjunto of perfil.favoritoConjunto">
+            <a [routerLink]="['/conjunto', conjunto.id]">
+              {{ conjunto.nombre }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</div>

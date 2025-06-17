@@ -331,4 +331,23 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.getSeguidos(id, pageable));
     }
 
+    @Operation(summary = "Obtener la información pública de un usuario por su ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUsuarioById(@PathVariable UUID id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (usuario instanceof Admin) {
+            return ResponseEntity.ok(GetAdminDto.from((Admin) usuario));
+        }
+
+        return ResponseEntity.ok(GetClienteDto.from((Cliente) usuario));
+    }
+
+
 }

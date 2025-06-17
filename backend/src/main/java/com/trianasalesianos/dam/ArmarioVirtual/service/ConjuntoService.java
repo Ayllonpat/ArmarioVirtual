@@ -8,11 +8,9 @@ import com.trianasalesianos.dam.ArmarioVirtual.error.ConjuntoNoEncontradaExcepti
 import com.trianasalesianos.dam.ArmarioVirtual.error.PrendaNoEncontradaException;
 import com.trianasalesianos.dam.ArmarioVirtual.error.TipoUsuarioInvalidoException;
 import com.trianasalesianos.dam.ArmarioVirtual.model.*;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.ConjuntoRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.PrendaRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.TagRepository;
-import com.trianasalesianos.dam.ArmarioVirtual.repository.UsuarioRepository;
+import com.trianasalesianos.dam.ArmarioVirtual.repository.*;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -35,6 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +44,7 @@ public class ConjuntoService {
     private final UsuarioRepository usuarioRepository;
     private final PrendaRepository prendaRepository;
     private final TagRepository tagRepository;
+    private final ComentarioRepository comentarioRepository;
 
     private final Path conjuntoImageStorage =
             Paths.get("uploads/conjuntos").toAbsolutePath().normalize();
@@ -135,8 +135,11 @@ public class ConjuntoService {
             }
         }
 
+        c.getPrendas().clear();
         c.getTags().clear();
         c.getClientesQueDieronLike().clear();
+
+        comentarioRepository.deleteByConjuntoId(c.getId());
 
         conjuntoRepository.delete(c);
     }
@@ -154,12 +157,19 @@ public class ConjuntoService {
                 .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + conjuntoId + " no encontrado"));
 
         if (conjunto.getClientesQueDieronLike().contains(cliente)) {
+            // Quitar like
             conjunto.getClientesQueDieronLike().remove(cliente);
+            cliente.getFavoritoConjunto().remove(conjunto);
         } else {
+            // Dar like
             conjunto.getClientesQueDieronLike().add(cliente);
+            cliente.getFavoritoConjunto().add(conjunto);
         }
+
         conjuntoRepository.save(conjunto);
+        usuarioRepository.save(cliente);
     }
+
 
     public long getLikeCount(Long conjuntoId) {
         Conjunto conjunto = conjuntoRepository.findById(conjuntoId)
@@ -197,8 +207,8 @@ public class ConjuntoService {
         Conjunto c = conjuntoRepository.findById(conjuntoId)
                 .orElseThrow(() -> new ConjuntoNoEncontradaException("Conjunto con id " + conjuntoId + " no encontrado"));
 
-        String original = StringUtils.cleanPath(file.getOriginalFilename());
-        String filename = conjuntoId + "_" + original;
+        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+        String filename = conjuntoId + "_" + System.currentTimeMillis() + "_" + originalFilename;
 
         try (InputStream in = file.getInputStream()) {
             Path target = conjuntoImageStorage.resolve(filename);
@@ -237,5 +247,19 @@ public class ConjuntoService {
                 .map(GetConjuntoDto::from)
                 .toList();
     }
+
+    public List<GetConjuntoDto> getConjuntosDeUsuario(UUID id) {
+        Usuario user = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+
+        if (!(user instanceof Cliente cliente)) {
+            throw new IllegalStateException("El usuario no es un cliente");
+        }
+
+        return cliente.getConjuntos().stream()
+                .map(GetConjuntoDto::from)
+                .toList();
+    }
+
 
 }

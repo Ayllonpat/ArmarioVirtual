@@ -5,10 +5,7 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -36,6 +33,10 @@ public class Prenda {
 
     @Enumerated(EnumType.STRING)
     private Visibilidad visibilidad;
+
+    @ManyToMany(mappedBy = "prendas")
+    @Builder.Default
+    private List<Conjunto> conjuntos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "prendas")
     @Builder.Default

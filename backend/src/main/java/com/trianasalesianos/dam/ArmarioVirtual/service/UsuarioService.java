@@ -60,6 +60,7 @@ public class UsuarioService {
         return usuario;
     }
 
+    @Transactional(readOnly = true)
     public Usuario obtenerUsuarioAutenticado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null
@@ -67,8 +68,13 @@ public class UsuarioService {
                 || "anonymousUser".equals(authentication.getPrincipal())) {
             throw new UsuarioNoAutenticadoException("No autenticado. Debes iniciar sesión.");
         }
-        return (Usuario) authentication.getPrincipal();
+
+        Usuario principal = (Usuario) authentication.getPrincipal();
+        
+        return usuarioRepository.findById(principal.getId())
+                .orElseThrow(() -> new UsuarioNoAutenticadoException("Usuario no encontrado en base de datos"));
     }
+
 
     @Transactional
     public void follow(UUID targetId) {

@@ -33,6 +33,7 @@ import java.nio.file.Paths;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -268,6 +269,11 @@ public class ConjuntoController {
         }
         String username = auth.getName();
         return ResponseEntity.ok(conjuntoService.findByUsername(username));
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<GetConjuntoDto>> getConjuntosDeUsuario(@PathVariable UUID id) {
+        return ResponseEntity.ok(conjuntoService.getConjuntosDeUsuario(id));
     }
 
 

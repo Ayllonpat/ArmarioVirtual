@@ -1,0 +1,53 @@
+<div class="layout">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+
+  <main class="explorar-content">
+    <section class="filters">
+      <div class="filter-group">
+        <label>Mostrar:</label>
+        <button (click)="type='conjunto'" [class.active]="type==='conjunto'">Conjuntos</button>
+        <button (click)="type='prenda'" [class.active]="type==='prenda'">Prendas</button>
+      </div>
+
+      <div class="filter-group">
+        <label>Tag:</label>
+        <select [(ngModel)]="selectedTag" (change)="applyFilters()">
+          <option value="">Todos</option>
+          <option *ngFor="let tag of tags" [value]="tag.nombre">{{ tag.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group" *ngIf="type==='prenda'">
+        <label>Tipo de prenda:</label>
+        <select [(ngModel)]="selectedTipoPrenda" (change)="applyFilters()">
+          <option value="">Todas</option>
+          <option *ngFor="let tipo of tiposPrenda" [value]="tipo.id">{{ tipo.nombre }}</option>
+        </select>
+      </div>
+    </section>
+
+    <div class="grid">
+      <ng-container *ngIf="type==='conjunto'">
+        <div 
+          class="card" 
+          *ngFor="let c of filteredConjuntos"
+          (click)="goToDetalle(c)">
+          <img [src]="c.imagenUrl" [alt]="c.nombre">
+          <p>{{ c.nombre }}</p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="type==='prenda'">
+        <div 
+          class="card" 
+          *ngFor="let p of filteredPrendas"
+          (click)="goToDetalle(p)">
+          <img [src]="p.imagenUrl" [alt]="p.nombre">
+          <p>{{ p.nombre }}</p>
+        </div>
+      </ng-container>
+    </div>
+
+  </main>
+</div>

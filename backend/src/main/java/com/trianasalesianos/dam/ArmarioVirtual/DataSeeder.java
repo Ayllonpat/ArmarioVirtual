@@ -59,6 +59,7 @@ public class DataSeeder implements CommandLineRunner {
                 .password(passwordEncoder.encode("admin123"))
                 .email("admin1@email.com")
                 .fechaRegistro(LocalDateTime.now())
+                .role(Role.ADMIN)
                 .enable(true)
                 .activo(true)
                 .build();
@@ -69,6 +70,7 @@ public class DataSeeder implements CommandLineRunner {
                 .password(passwordEncoder.encode("admin123"))
                 .email("admin2@email.com")
                 .fechaRegistro(LocalDateTime.now())
+                .role(Role.ADMIN)
                 .enable(true)
                 .activo(true)
                 .build();
@@ -83,6 +85,7 @@ public class DataSeeder implements CommandLineRunner {
                 .password(passwordEncoder.encode("password123"))
                 .email("juan.perez@email.com")
                 .fechaRegistro(LocalDateTime.now())
+                .role(Role.CLIENTE)
                 .enable(true)
                 .activo(true)
                 .build();
@@ -93,6 +96,7 @@ public class DataSeeder implements CommandLineRunner {
                 .password(passwordEncoder.encode("password123"))
                 .email("ana.gomez@email.com")
                 .fechaRegistro(LocalDateTime.now())
+                .role(Role.CLIENTE)
                 .enable(true)
                 .activo(true)
                 .build();

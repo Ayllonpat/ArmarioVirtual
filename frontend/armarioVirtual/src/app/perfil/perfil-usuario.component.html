@@ -1,0 +1,44 @@
+<div class="layout" *ngIf="usuario">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+
+  <main class="main-content">
+    <!-- Encabezado del perfil arriba -->
+    <section class="perfil-header">
+      <h1>{{ usuario.username }}</h1>
+      <button (click)="toggleFollow()">
+        {{ isFollowing ? 'Dejar de seguir' : 'Seguir' }}
+      </button>
+      <div class="perfil-stats">
+        <button (click)="goToFollowers()">
+          Seguidores: {{ usuario.seguidores?.length || 0 }}
+        </button>
+        <button (click)="goToFollowing()">
+          Seguidos: {{ usuario.seguidos?.length || 0 }}
+        </button>
+      </div>
+    </section>
+
+    <!-- Tabs de navegación -->
+    <nav class="tab-nav">
+      <button (click)="viewType='conjuntos'" [class.active]="viewType==='conjuntos'">Conjuntos</button>
+      <button (click)="viewType='prendas'" [class.active]="viewType==='prendas'">Prendas</button>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <div class="grid">
+      <ng-container *ngIf="viewType === 'conjuntos'">
+        <div *ngFor="let c of conjuntos" class="card" [routerLink]="['/conjunto', c.id]">
+          <img [src]="c.imagenUrl" [alt]="c.nombre" />
+          <div class="name">{{ c.nombre }}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="viewType === 'prendas'">
+        <div *ngFor="let p of prendas" class="card" [routerLink]="['/prenda', p.id]">
+          <img [src]="p.imagenUrl" [alt]="p.nombre" />
+          <div class="name">{{ p.nombre }}</div>
+        </div>
+      </ng-container>
+    </div>
+  </main>
+</div>

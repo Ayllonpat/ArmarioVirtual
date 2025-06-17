@@ -1,0 +1,76 @@
+<div class="layout">
+  <app-top-nav></app-top-nav>
+  <app-side-nav></app-side-nav>
+  <main class="main-content">
+    <div class="form-wrapper">
+      <h2>Crear Conjunto</h2>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- Nombre -->
+        <div class="field">
+          <label>Nombre</label>
+          <input formControlName="nombre" />
+          <small *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched">
+            Nombre obligatorio (máx. 150 chars)
+          </small>
+        </div>
+
+        <!-- Prendas -->
+        <div class="field">
+          <label>Prendas</label>
+          <div formArrayName="prendasIds" class="checkbox-group">
+            <label *ngFor="let p of prendas">
+              <input 
+                type="checkbox" 
+                [value]="p.id" 
+                (change)="onCheckPrenda($event)" 
+              /> {{ p.nombre }}
+            </label>
+          </div>
+          <small *ngIf="prendasIds.invalid && prendasIds.touched">
+            Selecciona al menos una prenda
+          </small>
+        </div>
+
+        <!-- Tags -->
+        <div class="field">
+          <label>Tags</label>
+          <div formArrayName="tagsIds" class="checkbox-group">
+            <label *ngFor="let t of tags">
+              <input 
+                type="checkbox" 
+                [value]="t.id" 
+                (change)="onCheckTag($event)" 
+              /> {{ t.nombre }}
+            </label>
+          </div>
+          <small *ngIf="tagsIds.invalid && tagsIds.touched">
+            Selecciona al menos un tag
+          </small>
+        </div>
+
+        <!-- Visibilidad -->
+        <div class="field">
+          <label>Visibilidad</label>
+          <select formControlName="visibilidad">
+            <option value="PRIVADO">Privado</option>
+            <option value="PUBLICO">Público</option>
+          </select>
+        </div>
+
+        <!-- Imagen -->
+        <div class="field">
+          <label>Imagen del conjunto</label>
+          <input type="file" (change)="onFileSelected($event)" />
+        </div>
+
+        <!-- Botón -->
+        <div class="actions">
+          <button type="submit" [disabled]="loading">Crear</button>
+          <span *ngIf="error" class="error">{{ error }}</span>
+        </div>
+
+      </form>
+    </div>
+  </main>
+</div>
